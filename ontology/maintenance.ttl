@@ -1,0 +1,24 @@
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+
+# Maintenance extension: why equipment stopped and what was done about it.
+<https://w3id.org/industrial-ontology-lab/maintenance> a owl:Ontology ;
+    owl:imports <https://w3id.org/industrial-ontology-lab/core> ; rdfs:label "Maintenance extension" .
+
+mnt:Downtime a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Downtime" ;
+    rdfs:comment "Interval in which equipment did not run when it should." .
+mnt:FailureMode a owl:Class ; rdfs:label "Failure mode" ;
+    rdfs:comment "How something fails (bearing wear, jam, sensor fault). Shared vocabulary, not free text." .
+mnt:MaintenanceOrder a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Maintenance order" .
+mnt:Component a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Component" ;
+    rdfs:comment "Replaceable part of an equipment (motor, bearing, valve)." .
+
+mnt:causedBy    a owl:ObjectProperty ; rdfs:domain mnt:Downtime ; rdfs:range mnt:FailureMode .
+mnt:affects     a owl:ObjectProperty ; rdfs:domain mnt:FailureMode ; rdfs:range mnt:Component .
+mnt:resolves    a owl:ObjectProperty ; rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:Downtime .
+mnt:replaced    a owl:ObjectProperty ; rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:Component .
+mnt:planned     a owl:DatatypeProperty ; rdfs:domain mnt:Downtime ; rdfs:range xsd:boolean ;
+    rdfs:comment "Planned stops (lunch, changeover) do not count against availability." .

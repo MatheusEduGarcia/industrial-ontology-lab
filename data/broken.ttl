@@ -1,0 +1,31 @@
+# Records that a careless integration could send. Every one breaks a shape.
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix id:   <https://w3id.org/industrial-ontology-lab/id/> .
+
+# 1. new machine with no identity and no line
+<https://w3id.org/industrial-ontology-lab/id/new-palletizer> a mfg:Equipment ; rdfs:label "Palletizer (new)" .
+
+# 2. tag with a UNS topic copied from a PLC symbol
+<https://w3id.org/industrial-ontology-lab/id/new-palletizer/speed> a mfg:DataPoint ;
+    mfg:unsTopic "PLC1.DB10.Speed" .
+
+# 3. downtime typed in with start and end swapped and no reason
+<https://w3id.org/industrial-ontology-lab/id/downtime/D-999> a mnt:Downtime ;
+    mfg:occurredOn <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> ;
+    mfg:startTime "2026-11-10T09:30:00+00:00"^^xsd:dateTime ;
+    mfg:endTime   "2026-11-10T09:10:00+00:00"^^xsd:dateTime ;
+    mnt:planned false .
+
+# 4. work order without product and with zero target
+<https://w3id.org/industrial-ontology-lab/id/work-order/WO-9999> a prd:WorkOrder ;
+    prd:targetQty "0"^^xsd:integer .
+
+# 5. inspection with a free-text result
+<https://w3id.org/industrial-ontology-lab/id/inspection/Q-9999> a qa:Inspection ;
+    qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-1041> ;
+    qa:result "ok, looks fine" .

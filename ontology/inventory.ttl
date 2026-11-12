@@ -1,0 +1,18 @@
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+
+# Inventory extension: materials consumed by runs, so lots can be traced back to raw material.
+<https://w3id.org/industrial-ontology-lab/inventory> a owl:Ontology ;
+    owl:imports <https://w3id.org/industrial-ontology-lab/core>, <https://w3id.org/industrial-ontology-lab/production> ;
+    rdfs:label "Inventory extension" .
+
+inv:Material    a owl:Class ; rdfs:label "Material" .
+inv:MaterialLot a owl:Class ; rdfs:label "Material lot" ; rdfs:comment "A supplier lot of raw material." .
+inv:materialOf  a owl:ObjectProperty ; rdfs:domain inv:MaterialLot ; rdfs:range inv:Material .
+inv:consumed    a owl:ObjectProperty ; rdfs:domain prd:ProductionRun ; rdfs:range inv:MaterialLot ;
+    rdfs:comment "Genealogy link: which material lots went into a run." .
+inv:supplier    a owl:DatatypeProperty ; rdfs:domain inv:MaterialLot ; rdfs:range xsd:string .

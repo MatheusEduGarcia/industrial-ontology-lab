@@ -1,0 +1,62 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix shp:  <https://w3id.org/industrial-ontology-lab/shapes#> .
+
+# ---------------------------------------------------------------------------
+# Data contracts. The ontology says what things MEAN; these shapes say what
+# a record must CONTAIN before it is accepted into the graph.
+# ---------------------------------------------------------------------------
+
+shp:EquipmentShape a sh:NodeShape ;
+    sh:targetClass mfg:Equipment ;
+    sh:property [ sh:path mfg:assetId ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                  sh:message "Equipment needs exactly one assetId (the identity shared with UNS, MES and CMMS)." ] ;
+    sh:property [ sh:path mfg:partOf ; sh:minCount 1 ; sh:class mfg:Line ;
+                  sh:message "Equipment must belong to a Line." ] .
+
+shp:DataPointShape a sh:NodeShape ;
+    sh:targetClass mfg:DataPoint ;
+    sh:property [ sh:path mfg:unsTopic ; sh:minCount 1 ;
+                  sh:pattern "^[a-z0-9-]+(/[a-z0-9.-]+)+$" ;
+                  sh:message "Every data point needs a UNS topic: lowercase, levels separated by '/'." ] .
+
+shp:WorkOrderShape a sh:NodeShape ;
+    sh:targetClass prd:WorkOrder ;
+    sh:property [ sh:path prd:forProduct ; sh:minCount 1 ; sh:class prd:Product ;
+                  sh:message "A work order must say which product it makes." ] ;
+    sh:property [ sh:path prd:targetQty ; sh:minCount 1 ; sh:minExclusive 0 ;
+                  sh:message "Target quantity must be positive." ] .
+
+shp:EventTimeShape a sh:NodeShape ;
+    sh:targetClass prd:ProductionRun, mnt:Downtime ;
+    sh:property [ sh:path mfg:startTime ; sh:minCount 1 ; sh:datatype xsd:dateTime ] ;
+    sh:property [ sh:path mfg:endTime ; sh:minCount 1 ; sh:datatype xsd:dateTime ] ;
+    sh:property [ sh:path mfg:occurredOn ; sh:minCount 1 ; sh:class mfg:Equipment ;
+                  sh:message "Runs and downtimes happen on a piece of equipment." ] ;
+    sh:sparql [
+        sh:message "End time must be after start time." ;
+        sh:select """
+            PREFIX mfg: <https://w3id.org/industrial-ontology-lab/core#>
+            SELECT $this WHERE { $this mfg:startTime ?s ; mfg:endTime ?e . FILTER(?e <= ?s) }
+        """ ] .
+
+shp:DowntimeShape a sh:NodeShape ;
+    sh:targetClass mnt:Downtime ;
+    sh:property [ sh:path mnt:planned ; sh:minCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:sparql [
+        sh:message "An unplanned downtime must have a failure mode (causedBy), otherwise the Pareto is useless." ;
+        sh:select """
+            PREFIX mnt: <https://w3id.org/industrial-ontology-lab/maintenance#>
+            SELECT $this WHERE { $this mnt:planned false . FILTER NOT EXISTS { $this mnt:causedBy ?fm } }
+        """ ] .
+
+shp:InspectionShape a sh:NodeShape ;
+    sh:targetClass qa:Inspection ;
+    sh:property [ sh:path qa:result ; sh:minCount 1 ; sh:in ( "PASS" "HOLD" "REJECT" ) ;
+                  sh:message "Inspection result must be PASS, HOLD or REJECT." ] ;
+    sh:property [ sh:path qa:inspects ; sh:minCount 1 ; sh:class prd:Lot ] .

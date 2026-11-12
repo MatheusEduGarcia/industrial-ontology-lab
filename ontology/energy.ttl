@@ -1,0 +1,16 @@
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix nrg:  <https://w3id.org/industrial-ontology-lab/energy#> .
+
+# Energy extension: meters, what they measure and consumption intervals.
+<https://w3id.org/industrial-ontology-lab/energy> a owl:Ontology ;
+    owl:imports <https://w3id.org/industrial-ontology-lab/core> ; rdfs:label "Energy extension" .
+
+nrg:EnergyMeter a owl:Class ; rdfs:subClassOf mfg:DataPoint ; rdfs:label "Energy meter" .
+nrg:Consumption a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Consumption interval" .
+nrg:meters      a owl:ObjectProperty ; rdfs:domain nrg:EnergyMeter ; rdfs:range mfg:Asset ;
+    rdfs:comment "Which asset the meter measures. A meter on a line measures all its equipment." .
+nrg:measuredBy  a owl:ObjectProperty ; rdfs:domain nrg:Consumption ; rdfs:range nrg:EnergyMeter .
+nrg:kWh         a owl:DatatypeProperty ; rdfs:domain nrg:Consumption ; rdfs:range xsd:decimal .

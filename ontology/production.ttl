@@ -1,0 +1,25 @@
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+
+# Production extension: what is being made, in which order, on which line.
+<https://w3id.org/industrial-ontology-lab/production> a owl:Ontology ;
+    owl:imports <https://w3id.org/industrial-ontology-lab/core> ; rdfs:label "Production extension" .
+
+prd:Product   a owl:Class ; rdfs:label "Product" ; rdfs:comment "A sellable item (SKU)." .
+prd:WorkOrder a owl:Class ; rdfs:label "Work order" ; rdfs:comment "A request to produce a quantity of a product." .
+prd:Lot       a owl:Class ; rdfs:label "Lot" ; rdfs:comment "Traceable quantity produced in one run." .
+prd:ProductionRun a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Production run" ;
+    rdfs:comment "Execution of a work order on equipment between a start and an end time." .
+
+prd:forProduct   a owl:ObjectProperty ; rdfs:domain prd:WorkOrder ; rdfs:range prd:Product .
+prd:executes     a owl:ObjectProperty ; rdfs:domain prd:ProductionRun ; rdfs:range prd:WorkOrder .
+prd:produced     a owl:ObjectProperty ; rdfs:domain prd:ProductionRun ; rdfs:range prd:Lot .
+prd:lotOf        a owl:ObjectProperty ; rdfs:domain prd:Lot ; rdfs:range prd:Product .
+prd:targetQty    a owl:DatatypeProperty ; rdfs:domain prd:WorkOrder ; rdfs:range xsd:integer .
+prd:goodQty      a owl:DatatypeProperty ; rdfs:domain prd:ProductionRun ; rdfs:range xsd:integer .
+prd:rejectQty    a owl:DatatypeProperty ; rdfs:domain prd:ProductionRun ; rdfs:range xsd:integer .
+prd:idealCycleSeconds a owl:DatatypeProperty ; rdfs:domain prd:Product ; rdfs:range xsd:decimal ;
+    rdfs:comment "Ideal cycle time, the basis of OEE performance." .

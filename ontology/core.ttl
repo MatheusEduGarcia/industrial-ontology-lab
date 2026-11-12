@@ -1,0 +1,73 @@
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Core manufacturing ontology
+#
+# Small on purpose: the concepts every domain extension needs.
+#   * the ISA-95 equipment hierarchy (enterprise > site > area > line > cell)
+#   * data points (tags) that belong to equipment and live at a UNS topic
+#   * events that happen to equipment over time
+# Domain files (production, maintenance, quality, energy, inventory) import
+# this one and only ADD classes and relations, they never redefine it.
+# ---------------------------------------------------------------------------
+
+<https://w3id.org/industrial-ontology-lab/core> a owl:Ontology ;
+    rdfs:label "Industrial ontology lab: core" ;
+    owl:versionInfo "0.1.0" .
+
+# ---------------------------------------------------------------- hierarchy
+mfg:Asset a owl:Class ;
+    rdfs:label "Asset" ;
+    rdfs:comment "Anything in the equipment hierarchy that has a stable identity." .
+
+mfg:Enterprise  a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Enterprise" .
+mfg:Site        a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Site" .
+mfg:Area        a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Area" .
+mfg:Line        a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Production line" .
+mfg:Equipment   a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Equipment" ;
+    rdfs:comment "ISA-95 work cell / unit: a machine that runs, stops and produces." .
+
+mfg:partOf a owl:ObjectProperty, owl:TransitiveProperty ;
+    rdfs:label "part of" ;
+    rdfs:comment "Containment in the equipment hierarchy. Transitive: a filler partOf line 1 partOf area partOf site." ;
+    rdfs:domain mfg:Asset ; rdfs:range mfg:Asset .
+
+mfg:hasPart a owl:ObjectProperty ; owl:inverseOf mfg:partOf ; rdfs:label "has part" .
+
+mfg:assetId a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "asset id" ;
+    rdfs:comment "Stable business identifier, the same in UNS, MES and CMMS." ;
+    rdfs:domain mfg:Asset ; rdfs:range xsd:string .
+
+# ---------------------------------------------------------------- data points
+mfg:DataPoint a owl:Class ;
+    rdfs:label "Data point" ;
+    rdfs:comment "A measured or derived value that belongs to an asset (a PLC tag, a computed KPI)." .
+
+mfg:hasDataPoint a owl:ObjectProperty ;
+    rdfs:domain mfg:Asset ; rdfs:range mfg:DataPoint ; rdfs:label "has data point" .
+
+mfg:unsTopic a owl:DatatypeProperty ;
+    rdfs:label "UNS topic" ;
+    rdfs:comment "Where the live value of this data point is published in the Unified Namespace." ;
+    rdfs:domain mfg:DataPoint ; rdfs:range xsd:string .
+
+mfg:unit a owl:DatatypeProperty ; rdfs:domain mfg:DataPoint ; rdfs:range xsd:string ; rdfs:label "unit" .
+mfg:lastValue a owl:DatatypeProperty ; rdfs:domain mfg:DataPoint ; rdfs:label "last value" .
+mfg:lastUpdate a owl:DatatypeProperty ; rdfs:domain mfg:DataPoint ; rdfs:range xsd:dateTime ; rdfs:label "last update" .
+
+# ---------------------------------------------------------------- events
+mfg:Event a owl:Class ;
+    rdfs:label "Event" ;
+    rdfs:comment "Something that happened to an asset at a point in time (state change, order start, inspection)." .
+
+mfg:occurredOn a owl:ObjectProperty ; rdfs:domain mfg:Event ; rdfs:range mfg:Asset ; rdfs:label "occurred on" .
+mfg:startTime a owl:DatatypeProperty ; rdfs:domain mfg:Event ; rdfs:range xsd:dateTime ; rdfs:label "start time" .
+mfg:endTime   a owl:DatatypeProperty ; rdfs:domain mfg:Event ; rdfs:range xsd:dateTime ; rdfs:label "end time" .
+
+mfg:StateChange a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "State change" .
+mfg:toState a owl:DatatypeProperty ; rdfs:domain mfg:StateChange ; rdfs:range xsd:string ; rdfs:label "to state" .

@@ -1,0 +1,22 @@
+@prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+
+# Quality extension: inspections on lots and the defects they find.
+<https://w3id.org/industrial-ontology-lab/quality> a owl:Ontology ;
+    owl:imports <https://w3id.org/industrial-ontology-lab/core>, <https://w3id.org/industrial-ontology-lab/production> ;
+    rdfs:label "Quality extension" .
+
+qa:Inspection a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Inspection" .
+qa:DefectType a owl:Class ; rdfs:label "Defect type" .
+qa:Finding    a owl:Class ; rdfs:label "Finding" ; rdfs:comment "One defect type found in one inspection, with a count." .
+
+qa:inspects     a owl:ObjectProperty ; rdfs:domain qa:Inspection ; rdfs:range prd:Lot .
+qa:hasFinding   a owl:ObjectProperty ; rdfs:domain qa:Inspection ; rdfs:range qa:Finding .
+qa:defectType   a owl:ObjectProperty ; rdfs:domain qa:Finding ; rdfs:range qa:DefectType .
+qa:defectCount  a owl:DatatypeProperty ; rdfs:domain qa:Finding ; rdfs:range xsd:integer .
+qa:result       a owl:DatatypeProperty ; rdfs:domain qa:Inspection ; rdfs:range xsd:string ;
+    rdfs:comment "PASS, HOLD or REJECT." .
