@@ -1,22 +1,89 @@
 @prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
 @prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix nrg:  <https://w3id.org/industrial-ontology-lab/energy#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 
-# Quality extension: inspections on lots and the defects they find.
+# Quality extension: inspections on lots, defects, measurements against specification, non-conformances.
 <https://w3id.org/industrial-ontology-lab/quality> a owl:Ontology ;
     owl:imports <https://w3id.org/industrial-ontology-lab/core>, <https://w3id.org/industrial-ontology-lab/production> ;
-    rdfs:label "Quality extension" .
+    rdfs:label "Quality extension" ; owl:versionInfo "2.0.0" .
 
-qa:Inspection a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Inspection" .
-qa:DefectType a owl:Class ; rdfs:label "Defect type" .
-qa:Finding    a owl:Class ; rdfs:label "Finding" ; rdfs:comment "One defect type found in one inspection, with a count." .
+qa:Inspection a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Inspection" ;
+    rdfs:comment "A quality check carried out on a lot, ending in a decision." ;
+    skos:example "Q-1042: inspection of lot L-1042, result HOLD" .
 
-qa:inspects     a owl:ObjectProperty ; rdfs:domain qa:Inspection ; rdfs:range prd:Lot .
-qa:hasFinding   a owl:ObjectProperty ; rdfs:domain qa:Inspection ; rdfs:range qa:Finding .
-qa:defectType   a owl:ObjectProperty ; rdfs:domain qa:Finding ; rdfs:range qa:DefectType .
-qa:defectCount  a owl:DatatypeProperty ; rdfs:domain qa:Finding ; rdfs:range xsd:integer .
-qa:result       a owl:DatatypeProperty ; rdfs:domain qa:Inspection ; rdfs:range xsd:string ;
-    rdfs:comment "PASS, HOLD or REJECT." .
+qa:DefectType a owl:Class ; rdfs:label "Defect type" ;
+    rdfs:comment "A named kind of defect, counted the same way everywhere." ;
+    skos:example "leak at cap, label skewed" .
+
+qa:Finding a owl:Class ; rdfs:label "Finding" ;
+    rdfs:comment "One defect type found in one inspection, with how many units showed it." ;
+    skos:example "37 leaks at cap in inspection Q-1042" .
+
+qa:Characteristic a owl:Class ; rdfs:label "Characteristic" ;
+    rdfs:comment "A measurable property of the product that quality controls." ;
+    skos:example "cap removal torque, fill volume" .
+
+qa:Specification a owl:Class ; rdfs:label "Specification" ;
+    rdfs:comment "The accepted range of one characteristic for one product." ;
+    skos:example "cap removal torque of still water 500 ml: 1.4 to 2.0 N·m" .
+
+qa:Measurement a owl:Class ; rdfs:label "Measurement" ;
+    rdfs:comment "One measured value of a characteristic, taken during an inspection." ;
+    skos:example "1.31 N·m on a sample of lot L-1043" .
+
+qa:NonConformance a owl:Class ; rdfs:label "Non-conformance" ;
+    rdfs:comment "A formal record that a lot does not meet requirements, with what was decided about it." ;
+    skos:example "NC-002: lot L-1043 rejected for leaks, to be scrapped" .
+
+qa:inspects a owl:ObjectProperty ; rdfs:label "inspects" ;
+    rdfs:comment "The lot an inspection examined." ;
+    rdfs:domain qa:Inspection ; rdfs:range prd:Lot .
+qa:hasFinding a owl:ObjectProperty ; rdfs:label "has finding" ;
+    rdfs:comment "The defects an inspection counted." ;
+    rdfs:domain qa:Inspection ; rdfs:range qa:Finding .
+qa:defectType a owl:ObjectProperty ; rdfs:label "defect type" ;
+    rdfs:comment "Which kind of defect a finding counts." ;
+    rdfs:domain qa:Finding ; rdfs:range qa:DefectType .
+qa:hasMeasurement a owl:ObjectProperty ; rdfs:label "has measurement" ;
+    rdfs:comment "The values measured during an inspection." ;
+    rdfs:domain qa:Inspection ; rdfs:range qa:Measurement .
+qa:ofCharacteristic a owl:ObjectProperty ; rdfs:label "of characteristic" ;
+    rdfs:comment "The characteristic a measurement or a specification refers to." ;
+    rdfs:range qa:Characteristic .
+qa:specFor a owl:ObjectProperty ; rdfs:label "specification for" ;
+    rdfs:comment "The product a specification applies to." ;
+    rdfs:domain qa:Specification ; rdfs:range prd:Product .
+qa:raisedBy a owl:ObjectProperty ; rdfs:label "raised by" ;
+    rdfs:comment "The inspection that opened the non-conformance." ;
+    rdfs:domain qa:NonConformance ; rdfs:range qa:Inspection .
+qa:concerns a owl:ObjectProperty ; rdfs:label "concerns" ;
+    rdfs:comment "The lot a non-conformance is about." ;
+    rdfs:domain qa:NonConformance ; rdfs:range prd:Lot .
+qa:defectCount a owl:DatatypeProperty ; rdfs:label "defect count" ;
+    rdfs:comment "Units showing the defect." ;
+    rdfs:domain qa:Finding ; rdfs:range xsd:integer .
+qa:result a owl:DatatypeProperty ; rdfs:label "result" ;
+    rdfs:comment "The decision of the inspection: PASS, HOLD or REJECT." ;
+    rdfs:domain qa:Inspection ; rdfs:range xsd:string .
+qa:value a owl:DatatypeProperty ; rdfs:label "value" ;
+    rdfs:comment "The measured value, in the unit of the characteristic." ;
+    rdfs:domain qa:Measurement ; rdfs:range xsd:decimal .
+qa:lowerLimit a owl:DatatypeProperty ; rdfs:label "lower limit" ;
+    rdfs:comment "Smallest accepted value." ;
+    rdfs:domain qa:Specification ; rdfs:range xsd:decimal .
+qa:upperLimit a owl:DatatypeProperty ; rdfs:label "upper limit" ;
+    rdfs:comment "Largest accepted value." ;
+    rdfs:domain qa:Specification ; rdfs:range xsd:decimal .
+qa:characteristicUnit a owl:DatatypeProperty ; rdfs:label "characteristic unit" ;
+    rdfs:comment "Unit in which the characteristic is measured." ;
+    rdfs:domain qa:Characteristic ; rdfs:range xsd:string .
+qa:disposition a owl:DatatypeProperty ; rdfs:label "disposition" ;
+    rdfs:comment "What was decided for the lot: UNDER_INVESTIGATION, REWORK, SCRAP or RELEASE." ;
+    rdfs:domain qa:NonConformance ; rdfs:range xsd:string .

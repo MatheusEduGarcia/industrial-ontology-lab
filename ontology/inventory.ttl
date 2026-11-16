@@ -1,18 +1,61 @@
 @prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 @prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix nrg:  <https://w3id.org/industrial-ontology-lab/energy#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 
-# Inventory extension: materials consumed by runs, so lots can be traced back to raw material.
+# Inventory extension: materials, the lots they arrive in, who supplied them, where they sit,
+# and which runs consumed them, so product lots can be traced back to raw material.
 <https://w3id.org/industrial-ontology-lab/inventory> a owl:Ontology ;
     owl:imports <https://w3id.org/industrial-ontology-lab/core>, <https://w3id.org/industrial-ontology-lab/production> ;
-    rdfs:label "Inventory extension" .
+    rdfs:label "Inventory extension" ; owl:versionInfo "2.0.0" .
 
-inv:Material    a owl:Class ; rdfs:label "Material" .
-inv:MaterialLot a owl:Class ; rdfs:label "Material lot" ; rdfs:comment "A supplier lot of raw material." .
-inv:materialOf  a owl:ObjectProperty ; rdfs:domain inv:MaterialLot ; rdfs:range inv:Material .
-inv:consumed    a owl:ObjectProperty ; rdfs:domain prd:ProductionRun ; rdfs:range inv:MaterialLot ;
-    rdfs:comment "Genealogy link: which material lots went into a run." .
-inv:supplier    a owl:DatatypeProperty ; rdfs:domain inv:MaterialLot ; rdfs:range xsd:string .
+inv:Material a owl:Class ; rdfs:label "Material" ;
+    rdfs:comment "A raw or packaging material, as an item in the catalogue." ;
+    skos:example "cap 28 mm, PET preform, label" .
+
+inv:MaterialLot a owl:Class ; rdfs:label "Material lot" ;
+    rdfs:comment "One delivery of a material from one supplier, traceable as a unit." ;
+    skos:example "ML-2207: caps 28 mm delivered by Cap Co" .
+
+inv:Supplier a owl:Class ; rdfs:label "Supplier" ;
+    rdfs:comment "A company that delivers material." ;
+    skos:example "Cap Co, Seal Systems" .
+
+inv:StorageLocation a owl:Class ; rdfs:label "Storage location" ;
+    rdfs:comment "A place where material is kept, in a warehouse or at the line." ;
+    skos:example "warehouse rack A-03, point of use at line 1" .
+
+inv:StockItem a owl:Class ; rdfs:label "Stock item" ;
+    rdfs:comment "The quantity of one material lot that sits in one storage location right now." ;
+    skos:example "12,000 caps of lot ML-2207 in rack A-03" .
+
+inv:materialOf a owl:ObjectProperty ; rdfs:label "material of" ;
+    rdfs:comment "The catalogue material a lot is made of." ;
+    rdfs:domain inv:MaterialLot ; rdfs:range inv:Material .
+inv:consumed a owl:ObjectProperty ; rdfs:label "consumed" ;
+    rdfs:comment "Genealogy link: the material lots that went into a run." ;
+    rdfs:domain prd:ProductionRun ; rdfs:range inv:MaterialLot .
+inv:suppliedBy a owl:ObjectProperty ; rdfs:label "supplied by" ;
+    rdfs:comment "The supplier that delivered a material lot." ;
+    rdfs:domain inv:MaterialLot ; rdfs:range inv:Supplier .
+inv:stockOf a owl:ObjectProperty ; rdfs:label "stock of" ;
+    rdfs:comment "The material lot a stock item holds." ;
+    rdfs:domain inv:StockItem ; rdfs:range inv:MaterialLot .
+inv:storedAt a owl:ObjectProperty ; rdfs:label "stored at" ;
+    rdfs:comment "Where a stock item sits." ;
+    rdfs:domain inv:StockItem ; rdfs:range inv:StorageLocation .
+inv:locatedIn a owl:ObjectProperty ; rdfs:label "located in" ;
+    rdfs:comment "The asset, usually a site or a line, where a storage location is." ;
+    rdfs:domain inv:StorageLocation ; rdfs:range mfg:Asset .
+inv:quantity a owl:DatatypeProperty ; rdfs:label "quantity" ;
+    rdfs:comment "Units on hand in the stock item." ;
+    rdfs:domain inv:StockItem ; rdfs:range xsd:integer .
+inv:receivedOn a owl:DatatypeProperty ; rdfs:label "received on" ;
+    rdfs:comment "When the material lot arrived." ;
+    rdfs:domain inv:MaterialLot ; rdfs:range xsd:dateTime .

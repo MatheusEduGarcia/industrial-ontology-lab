@@ -11,25 +11,32 @@
 <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/capper-01> a mfg:Equipment ;
     rdfs:label "Capper L3" ;
     mfg:assetId "acme/curitiba/packaging/line-3/capper-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/cap-28mm>,
+        <https://w3id.org/industrial-ontology-lab/id/capability/cap-38mm> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/capper-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/capper-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/capper-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/capper> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/labeler-01> a mfg:Equipment ;
     rdfs:label "Labeler L3" ;
     mfg:assetId "acme/curitiba/packaging/line-3/labeler-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/label-wrap> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/labeler-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/labeler-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/labeler-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/labeler> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/capper-01> a mfg:Equipment ;
     rdfs:label "Capper L1" ;
     mfg:assetId "acme/sao-paulo/packaging/line-1/capper-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/cap-28mm> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/capper-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/capper-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/capper-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/capper> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/valve-block> a mnt:Component ;
@@ -40,26 +47,39 @@
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/labeler-01> a mfg:Equipment ;
     rdfs:label "Labeler L1" ;
     mfg:assetId "acme/sao-paulo/packaging/line-1/labeler-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/label-wrap> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/labeler-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/labeler-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/labeler-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/labeler> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/capper-01> a mfg:Equipment ;
     rdfs:label "Capper L2" ;
     mfg:assetId "acme/sao-paulo/packaging/line-2/capper-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/cap-28mm> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/capper-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/capper-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/capper-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/capper> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/labeler-01> a mfg:Equipment ;
     rdfs:label "Labeler L2" ;
     mfg:assetId "acme/sao-paulo/packaging/line-2/labeler-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/label-wrap> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/labeler-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/labeler-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/labeler-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/labeler> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2> .
+
+<https://w3id.org/industrial-ontology-lab/id/changeover/CO-001> a prd:Changeover ;
+    rdfs:label "CO-001" ;
+    mfg:endTime "2026-11-10T14:00:00+00:00"^^xsd:dateTime ;
+    mfg:occurredOn <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3> ;
+    mfg:startTime "2026-11-10T13:50:00+00:00"^^xsd:dateTime ;
+    prd:toProduct <https://w3id.org/industrial-ontology-lab/id/product/juice-1l> .
 
 <https://w3id.org/industrial-ontology-lab/id/consumption/E-L1-20261110> a nrg:Consumption ;
     mfg:endTime "2026-11-10T14:00:00+00:00"^^xsd:dateTime ;
@@ -129,46 +149,108 @@
     mnt:causedBy <https://w3id.org/industrial-ontology-lab/id/failure-mode/motor-overload> ;
     mnt:planned false .
 
+<https://w3id.org/industrial-ontology-lab/id/energy-baseline/water-500ml> a nrg:EnergyBaseline ;
+    rdfs:label "Baseline, still water 500 ml" ;
+    nrg:baselineFor <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> ;
+    nrg:expectedKwhPer1000 3.5 ;
+    nrg:tolerancePct 15.0 .
+
+<https://w3id.org/industrial-ontology-lab/id/energy-carrier/compressed-air> a nrg:EnergyCarrier ;
+    rdfs:label "Compressed air" .
+
 <https://w3id.org/industrial-ontology-lab/id/inspection/Q-1041> a qa:Inspection ;
+    rdfs:label "Q-1041" ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> ;
     qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-1041-label-skew>,
         <https://w3id.org/industrial-ontology-lab/id/finding/Q-1041-leak> ;
+    qa:hasMeasurement <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T1>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T2>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T3>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T4>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T5> ;
     qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-1041> ;
     qa:result "PASS" .
 
-<https://w3id.org/industrial-ontology-lab/id/inspection/Q-1042> a qa:Inspection ;
-    qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-1042-leak> ;
-    qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-1042> ;
-    qa:result "HOLD" .
-
-<https://w3id.org/industrial-ontology-lab/id/inspection/Q-1043> a qa:Inspection ;
-    qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-1043-label-skew>,
-        <https://w3id.org/industrial-ontology-lab/id/finding/Q-1043-leak> ;
-    qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-1043> ;
-    qa:result "REJECT" .
-
 <https://w3id.org/industrial-ontology-lab/id/inspection/Q-2041> a qa:Inspection ;
+    rdfs:label "Q-2041" ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> ;
     qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-2041-label-skew>,
         <https://w3id.org/industrial-ontology-lab/id/finding/Q-2041-leak> ;
+    qa:hasMeasurement <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T1>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T2>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T3>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T4>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T5> ;
     qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-2041> ;
     qa:result "PASS" .
 
 <https://w3id.org/industrial-ontology-lab/id/inspection/Q-2042> a qa:Inspection ;
+    rdfs:label "Q-2042" ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> ;
     qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-2042-label-skew> ;
+    qa:hasMeasurement <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T1>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T2>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T3>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T4>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T5> ;
     qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-2042> ;
     qa:result "PASS" .
 
 <https://w3id.org/industrial-ontology-lab/id/inspection/Q-3041> a qa:Inspection ;
+    rdfs:label "Q-3041" ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> ;
     qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-3041-label-skew>,
         <https://w3id.org/industrial-ontology-lab/id/finding/Q-3041-leak> ;
+    qa:hasMeasurement <https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T1>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T2>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T3>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T4>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T5> ;
     qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-3041> ;
     qa:result "PASS" .
 
-<https://w3id.org/industrial-ontology-lab/id/maintenance-order/MO-0077> a mnt:MaintenanceOrder ;
+<https://w3id.org/industrial-ontology-lab/id/maintenance-order/MO-0061> a mnt:PreventiveOrder ;
+    rdfs:label "MO-0061" ;
+    mfg:endTime "2026-08-01T09:30:00+00:00"^^xsd:dateTime ;
+    mfg:occurredOn <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/ana-lima> ;
+    mfg:startTime "2026-08-01T08:00:00+00:00"^^xsd:dateTime .
+
+<https://w3id.org/industrial-ontology-lab/id/maintenance-order/MO-0077> a mnt:CorrectiveOrder ;
+    rdfs:label "MO-0077" ;
     mfg:endTime "2026-11-10T14:40:00+00:00"^^xsd:dateTime ;
     mfg:occurredOn <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/ana-lima> ;
     mfg:startTime "2026-11-10T13:55:00+00:00"^^xsd:dateTime ;
     mnt:replaced <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/seal-kit> ;
-    mnt:resolves <https://w3id.org/industrial-ontology-lab/id/downtime/D-004> .
+    mnt:resolves <https://w3id.org/industrial-ontology-lab/id/downtime/D-004> ;
+    mnt:usedSpare <https://w3id.org/industrial-ontology-lab/id/spare-part/SK-28> .
+
+<https://w3id.org/industrial-ontology-lab/id/maintenance-plan/PM-MOTOR-L1> a mnt:MaintenancePlan ;
+    rdfs:label "PM-MOTOR-L1" ;
+    mnt:covers <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/main-motor> ;
+    mnt:dueDate "2027-01-28T08:00:00+00:00"^^xsd:dateTime ;
+    mnt:intervalDays 180 ;
+    mnt:lastExecuted "2026-08-01T08:00:00+00:00"^^xsd:dateTime .
+
+<https://w3id.org/industrial-ontology-lab/id/maintenance-plan/PM-SEAL-L1> a mnt:MaintenancePlan ;
+    rdfs:label "PM-SEAL-L1" ;
+    mnt:covers <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/seal-kit> ;
+    mnt:dueDate "2026-10-28T08:00:00+00:00"^^xsd:dateTime ;
+    mnt:intervalDays 30 ;
+    mnt:lastExecuted "2026-09-28T08:00:00+00:00"^^xsd:dateTime .
+
+<https://w3id.org/industrial-ontology-lab/id/non-conformance/NC-001> a qa:NonConformance ;
+    rdfs:label "NC-001" ;
+    qa:concerns <https://w3id.org/industrial-ontology-lab/id/lot/L-1042> ;
+    qa:disposition "UNDER_INVESTIGATION" ;
+    qa:raisedBy <https://w3id.org/industrial-ontology-lab/id/inspection/Q-1042> .
+
+<https://w3id.org/industrial-ontology-lab/id/non-conformance/NC-002> a qa:NonConformance ;
+    rdfs:label "NC-002" ;
+    qa:concerns <https://w3id.org/industrial-ontology-lab/id/lot/L-1043> ;
+    qa:disposition "SCRAP" ;
+    qa:raisedBy <https://w3id.org/industrial-ontology-lab/id/inspection/Q-1043> .
 
 <https://w3id.org/industrial-ontology-lab/id/run/R-1041> a prd:ProductionRun ;
     rdfs:label "R-1041" ;
@@ -236,10 +318,49 @@
     prd:produced <https://w3id.org/industrial-ontology-lab/id/lot/L-3041> ;
     prd:rejectQty 610 .
 
-<https://w3id.org/industrial-ontology-lab/id/acme/curitiba> a mfg:Site ;
-    rdfs:label "Curitiba plant" ;
-    mfg:assetId "acme/curitiba" ;
-    mfg:partOf id:acme .
+<https://w3id.org/industrial-ontology-lab/id/shift/CT-20261110-M> a prd:Shift ;
+    rdfs:label "Morning shift CT" ;
+    mfg:endTime "2026-11-10T14:00:00+00:00"^^xsd:dateTime ;
+    mfg:occurredOn <https://w3id.org/industrial-ontology-lab/id/acme/curitiba> ;
+    mfg:startTime "2026-11-10T06:00:00+00:00"^^xsd:dateTime .
+
+<https://w3id.org/industrial-ontology-lab/id/shift/SP-20261110-M> a prd:Shift ;
+    rdfs:label "Morning shift SP" ;
+    mfg:endTime "2026-11-10T14:00:00+00:00"^^xsd:dateTime ;
+    mfg:occurredOn <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo> ;
+    mfg:startTime "2026-11-10T06:00:00+00:00"^^xsd:dateTime .
+
+<https://w3id.org/industrial-ontology-lab/id/spare-part/MTR-7> a mnt:SparePart ;
+    rdfs:label "Main motor MTR-7" ;
+    mnt:fits <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/main-motor> ;
+    mnt:stockQty 0 .
+
+<https://w3id.org/industrial-ontology-lab/id/specification/water-500ml-cap-torque> a qa:Specification ;
+    rdfs:label "Cap removal torque, still water 500 ml" ;
+    qa:lowerLimit 1.40 ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:specFor <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> ;
+    qa:upperLimit 2.00 .
+
+<https://w3id.org/industrial-ontology-lab/id/stock/S-001> a inv:StockItem ;
+    inv:quantity 12000 ;
+    inv:stockOf <https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2207> ;
+    inv:storedAt <https://w3id.org/industrial-ontology-lab/id/storage/sp-wh-a03> .
+
+<https://w3id.org/industrial-ontology-lab/id/stock/S-002> a inv:StockItem ;
+    inv:quantity 1800 ;
+    inv:stockOf <https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2207> ;
+    inv:storedAt <https://w3id.org/industrial-ontology-lab/id/storage/sp-line1-pou> .
+
+<https://w3id.org/industrial-ontology-lab/id/stock/S-003> a inv:StockItem ;
+    inv:quantity 9000 ;
+    inv:stockOf <https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2210> ;
+    inv:storedAt <https://w3id.org/industrial-ontology-lab/id/storage/sp-wh-a03> .
+
+<https://w3id.org/industrial-ontology-lab/id/stock/S-004> a inv:StockItem ;
+    inv:quantity 15000 ;
+    inv:stockOf <https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2215> ;
+    inv:storedAt <https://w3id.org/industrial-ontology-lab/id/storage/ct-wh-b01> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging> a mfg:Area ;
     rdfs:label "Packaging" ;
@@ -288,11 +409,6 @@
     mfg:unit "degC" ;
     mfg:unsTopic "acme/curitiba/packaging/line-3/labeler-01/temperature" .
 
-<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo> a mfg:Site ;
-    rdfs:label "São Paulo plant" ;
-    mfg:assetId "acme/sao-paulo" ;
-    mfg:partOf id:acme .
-
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/capper-01/speed> a mfg:DataPoint ;
     rdfs:label "capper L1 speed" ;
     mfg:unit "parts/min" ;
@@ -306,11 +422,6 @@
     rdfs:label "capper L1 temperature" ;
     mfg:unit "degC" ;
     mfg:unsTopic "acme/sao-paulo/packaging/line-1/capper-01/temperature" .
-
-<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/main-motor> a mnt:Component ;
-    rdfs:label "Main Motor" ;
-    mfg:assetId "acme/sao-paulo/packaging/line-1/filler-01/main-motor" ;
-    mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/speed> a mfg:DataPoint ;
     rdfs:label "filler L1 speed" ;
@@ -433,10 +544,179 @@
     qa:defectCount 2 ;
     qa:defectType <https://w3id.org/industrial-ontology-lab/id/defect-type/leak> .
 
-<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2215> a inv:MaterialLot ;
-    rdfs:label "ML-2215" ;
-    inv:materialOf <https://w3id.org/industrial-ontology-lab/id/material/cap-28mm> ;
-    inv:supplier "Seal Systems" .
+<https://w3id.org/industrial-ontology-lab/id/inspection/Q-1042> a qa:Inspection ;
+    rdfs:label "Q-1042" ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> ;
+    qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-1042-leak> ;
+    qa:hasMeasurement <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T1>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T2>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T3>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T4>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T5> ;
+    qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-1042> ;
+    qa:result "HOLD" .
+
+<https://w3id.org/industrial-ontology-lab/id/inspection/Q-1043> a qa:Inspection ;
+    rdfs:label "Q-1043" ;
+    mfg:performedBy <https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> ;
+    qa:hasFinding <https://w3id.org/industrial-ontology-lab/id/finding/Q-1043-label-skew>,
+        <https://w3id.org/industrial-ontology-lab/id/finding/Q-1043-leak> ;
+    qa:hasMeasurement <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T1>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T2>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T3>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T4>,
+        <https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T5> ;
+    qa:inspects <https://w3id.org/industrial-ontology-lab/id/lot/L-1043> ;
+    qa:result "REJECT" .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T1> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.52 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T2> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.48 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T3> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.45 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T4> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.50 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1041-T5> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.47 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T1> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.44 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T2> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.38 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T3> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.41 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T4> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.36 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1042-T5> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.46 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T1> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.33 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T2> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.39 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T3> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.31 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T4> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.42 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-1043-T5> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.35 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T1> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.71 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T2> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.68 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T3> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.74 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T4> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.70 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2041-T5> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.66 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T1> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.69 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T2> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.73 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T3> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.67 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T4> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.72 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-2042-T5> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.70 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T1> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.75 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T2> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.70 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T3> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.72 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T4> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.69 .
+
+<https://w3id.org/industrial-ontology-lab/id/measurement/Q-3041-T5> a qa:Measurement ;
+    qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:value 1.74 .
+
+<https://w3id.org/industrial-ontology-lab/id/product/juice-1l> a prd:Product ;
+    rdfs:label "Orange juice 1 l" ;
+    prd:idealCycleSeconds 0.20 ;
+    prd:requiresCapability <https://w3id.org/industrial-ontology-lab/id/capability/cap-38mm>,
+        <https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-1l>,
+        <https://w3id.org/industrial-ontology-lab/id/capability/label-wrap> .
+
+<https://w3id.org/industrial-ontology-lab/id/role/maintenance-technician> a mfg:Role ;
+    rdfs:label "Maintenance technician" .
+
+<https://w3id.org/industrial-ontology-lab/id/role/quality-inspector> a mfg:Role ;
+    rdfs:label "Quality inspector" .
+
+<https://w3id.org/industrial-ontology-lab/id/spare-part/SK-28> a mnt:SparePart ;
+    rdfs:label "Seal kit SK-28" ;
+    mnt:fits <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/seal-kit> ;
+    mnt:stockQty 2 .
+
+<https://w3id.org/industrial-ontology-lab/id/storage/ct-wh-b01> a inv:StorageLocation ;
+    rdfs:label "Warehouse rack B-01" ;
+    inv:locatedIn <https://w3id.org/industrial-ontology-lab/id/acme/curitiba> .
+
+<https://w3id.org/industrial-ontology-lab/id/storage/sp-line1-pou> a inv:StorageLocation ;
+    rdfs:label "Point of use, line 1" ;
+    inv:locatedIn <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1> .
+
+<https://w3id.org/industrial-ontology-lab/id/supplier/cap-co> a inv:Supplier ;
+    rdfs:label "Cap Co" .
 
 <https://w3id.org/industrial-ontology-lab/id/work-order/WO-1041> a prd:WorkOrder ;
     prd:forProduct <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> ;
@@ -470,14 +750,18 @@ id:acme a mfg:Enterprise ;
     rdfs:label "Energy meter L3" ;
     mfg:unit "kWh" ;
     mfg:unsTopic "acme/curitiba/packaging/line-3/energy-meter/kwh" ;
+    nrg:carrier <https://w3id.org/industrial-ontology-lab/id/energy-carrier/electricity> ;
     nrg:meters <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/filler-01> a mfg:Equipment ;
     rdfs:label "Filler L3" ;
     mfg:assetId "acme/curitiba/packaging/line-3/filler-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-1l>,
+        <https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-500ml> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/filler-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/filler-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3/filler-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/filler> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging> a mfg:Area ;
@@ -489,32 +773,27 @@ id:acme a mfg:Enterprise ;
     rdfs:label "Energy meter L1" ;
     mfg:unit "kWh" ;
     mfg:unsTopic "acme/sao-paulo/packaging/line-1/energy-meter/kwh" ;
+    nrg:carrier <https://w3id.org/industrial-ontology-lab/id/energy-carrier/electricity> ;
     nrg:meters <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1> .
-
-<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/seal-kit> a mnt:Component ;
-    rdfs:label "Seal Kit" ;
-    mfg:assetId "acme/sao-paulo/packaging/line-1/filler-01/seal-kit" ;
-    mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/energy-meter> a nrg:EnergyMeter ;
     rdfs:label "Energy meter L2" ;
     mfg:unit "kWh" ;
     mfg:unsTopic "acme/sao-paulo/packaging/line-2/energy-meter/kwh" ;
+    nrg:carrier <https://w3id.org/industrial-ontology-lab/id/energy-carrier/electricity> ;
     nrg:meters <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2> .
+
+<https://w3id.org/industrial-ontology-lab/id/capability/cap-38mm> a mfg:Capability ;
+    rdfs:label "Apply 38 mm caps" .
+
+<https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-1l> a mfg:Capability ;
+    rdfs:label "Fill 1 l PET bottles" .
 
 <https://w3id.org/industrial-ontology-lab/id/failure-mode/jam> a mnt:FailureMode ;
     rdfs:label "Bottle jam" .
 
 <https://w3id.org/industrial-ontology-lab/id/lot/L-1041> a prd:Lot ;
     rdfs:label "L-1041" ;
-    prd:lotOf <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> .
-
-<https://w3id.org/industrial-ontology-lab/id/lot/L-1042> a prd:Lot ;
-    rdfs:label "L-1042" ;
-    prd:lotOf <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> .
-
-<https://w3id.org/industrial-ontology-lab/id/lot/L-1043> a prd:Lot ;
-    rdfs:label "L-1043" ;
     prd:lotOf <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> .
 
 <https://w3id.org/industrial-ontology-lab/id/lot/L-2041> a prd:Lot ;
@@ -529,30 +808,112 @@ id:acme a mfg:Enterprise ;
     rdfs:label "L-3041" ;
     prd:lotOf <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> .
 
-<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2210> a inv:MaterialLot ;
-    rdfs:label "ML-2210" ;
+<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2215> a inv:MaterialLot ;
+    rdfs:label "ML-2215" ;
     inv:materialOf <https://w3id.org/industrial-ontology-lab/id/material/cap-28mm> ;
-    inv:supplier "Seal Systems" .
+    inv:receivedOn "2026-11-06T08:00:00+00:00"^^xsd:dateTime ;
+    inv:suppliedBy <https://w3id.org/industrial-ontology-lab/id/supplier/seal-systems> .
+
+<https://w3id.org/industrial-ontology-lab/id/person/ana-lima> a mfg:Person ;
+    rdfs:label "Ana Lima" ;
+    mfg:hasRole <https://w3id.org/industrial-ontology-lab/id/role/maintenance-technician> .
+
+<https://w3id.org/industrial-ontology-lab/id/storage/sp-wh-a03> a inv:StorageLocation ;
+    rdfs:label "Warehouse rack A-03" ;
+    inv:locatedIn <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo> .
+
+<https://w3id.org/industrial-ontology-lab/id/supplier/seal-systems> a inv:Supplier ;
+    rdfs:label "Seal Systems" .
+
+<https://w3id.org/industrial-ontology-lab/id/acme/curitiba> a mfg:Site ;
+    rdfs:label "Curitiba plant" ;
+    mfg:assetId "acme/curitiba" ;
+    mfg:partOf id:acme .
+
+<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo> a mfg:Site ;
+    rdfs:label "São Paulo plant" ;
+    mfg:assetId "acme/sao-paulo" ;
+    mfg:partOf id:acme .
+
+<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/main-motor> a mnt:Component ;
+    rdfs:label "Main Motor" ;
+    mfg:assetId "acme/sao-paulo/packaging/line-1/filler-01/main-motor" ;
+    mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> .
+
+<https://w3id.org/industrial-ontology-lab/id/energy-carrier/electricity> a nrg:EnergyCarrier ;
+    rdfs:label "Electricity" .
+
+<https://w3id.org/industrial-ontology-lab/id/equipment-class/capper> a mfg:EquipmentClass ;
+    rdfs:label "Capper" .
+
+<https://w3id.org/industrial-ontology-lab/id/equipment-class/filler> a mfg:EquipmentClass ;
+    rdfs:label "Filler" .
+
+<https://w3id.org/industrial-ontology-lab/id/equipment-class/labeler> a mfg:EquipmentClass ;
+    rdfs:label "Labeler" .
 
 <https://w3id.org/industrial-ontology-lab/id/failure-mode/seal-wear> a mnt:FailureMode ;
     rdfs:label "Seal wear" ;
     mnt:affects <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/seal-kit> .
 
-<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2207> a inv:MaterialLot ;
-    rdfs:label "ML-2207" ;
+<https://w3id.org/industrial-ontology-lab/id/lot/L-1042> a prd:Lot ;
+    rdfs:label "L-1042" ;
+    prd:lotOf <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> .
+
+<https://w3id.org/industrial-ontology-lab/id/lot/L-1043> a prd:Lot ;
+    rdfs:label "L-1043" ;
+    prd:lotOf <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> .
+
+<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2210> a inv:MaterialLot ;
+    rdfs:label "ML-2210" ;
     inv:materialOf <https://w3id.org/industrial-ontology-lab/id/material/cap-28mm> ;
-    inv:supplier "Cap Co" .
+    inv:receivedOn "2026-11-05T08:00:00+00:00"^^xsd:dateTime ;
+    inv:suppliedBy <https://w3id.org/industrial-ontology-lab/id/supplier/seal-systems> .
 
 <https://w3id.org/industrial-ontology-lab/id/material/cap-28mm> a inv:Material ;
     rdfs:label "Cap 28 mm" .
 
+<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/seal-kit> a mnt:Component ;
+    rdfs:label "Seal Kit" ;
+    mfg:assetId "acme/sao-paulo/packaging/line-1/filler-01/seal-kit" ;
+    mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> .
+
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/filler-01> a mfg:Equipment ;
     rdfs:label "Filler L2" ;
     mfg:assetId "acme/sao-paulo/packaging/line-2/filler-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-500ml> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/filler-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/filler-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/filler-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/filler> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2> .
+
+<https://w3id.org/industrial-ontology-lab/id/capability/cap-28mm> a mfg:Capability ;
+    rdfs:label "Apply 28 mm caps" .
+
+<https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-500ml> a mfg:Capability ;
+    rdfs:label "Fill 500 ml PET bottles" .
+
+<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2> a mfg:Line ;
+    rdfs:label "Line 2" ;
+    mfg:assetId "acme/sao-paulo/packaging/line-2" ;
+    mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/energy-meter> ;
+    mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging> .
+
+<https://w3id.org/industrial-ontology-lab/id/capability/label-wrap> a mfg:Capability ;
+    rdfs:label "Wrap-around labelling" .
+
+<https://w3id.org/industrial-ontology-lab/id/defect-type/label-skew> a qa:DefectType ;
+    rdfs:label "Label skewed" .
+
+<https://w3id.org/industrial-ontology-lab/id/defect-type/leak> a qa:DefectType ;
+    rdfs:label "Leak at cap" .
+
+<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-2207> a inv:MaterialLot ;
+    rdfs:label "ML-2207" ;
+    inv:materialOf <https://w3id.org/industrial-ontology-lab/id/material/cap-28mm> ;
+    inv:receivedOn "2026-11-03T08:00:00+00:00"^^xsd:dateTime ;
+    inv:suppliedBy <https://w3id.org/industrial-ontology-lab/id/supplier/cap-co> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/curitiba/packaging/line-3> a mfg:Line ;
     rdfs:label "Line 3" ;
@@ -566,27 +927,28 @@ id:acme a mfg:Enterprise ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/energy-meter> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging> .
 
-<https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2> a mfg:Line ;
-    rdfs:label "Line 2" ;
-    mfg:assetId "acme/sao-paulo/packaging/line-2" ;
-    mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-2/energy-meter> ;
-    mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging> .
-
-<https://w3id.org/industrial-ontology-lab/id/defect-type/label-skew> a qa:DefectType ;
-    rdfs:label "Label skewed" .
-
-<https://w3id.org/industrial-ontology-lab/id/defect-type/leak> a qa:DefectType ;
-    rdfs:label "Leak at cap" .
+<https://w3id.org/industrial-ontology-lab/id/person/bruno-reis> a mfg:Person ;
+    rdfs:label "Bruno Reis" ;
+    mfg:hasRole <https://w3id.org/industrial-ontology-lab/id/role/quality-inspector> .
 
 <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01> a mfg:Equipment ;
     rdfs:label "Filler L1" ;
     mfg:assetId "acme/sao-paulo/packaging/line-1/filler-01" ;
+    mfg:hasCapability <https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-500ml> ;
     mfg:hasDataPoint <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/speed>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/state>,
         <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/temperature> ;
+    mfg:ofClass <https://w3id.org/industrial-ontology-lab/id/equipment-class/filler> ;
     mfg:partOf <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1> .
 
 <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> a prd:Product ;
     rdfs:label "Still water 500 ml" ;
-    prd:idealCycleSeconds 0.12 .
+    prd:idealCycleSeconds 0.12 ;
+    prd:requiresCapability <https://w3id.org/industrial-ontology-lab/id/capability/cap-28mm>,
+        <https://w3id.org/industrial-ontology-lab/id/capability/fill-pet-500ml>,
+        <https://w3id.org/industrial-ontology-lab/id/capability/label-wrap> .
+
+<https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> a qa:Characteristic ;
+    rdfs:label "Cap removal torque" ;
+    qa:characteristicUnit "N·m" .
 

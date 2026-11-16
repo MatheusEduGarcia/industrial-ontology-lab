@@ -9,6 +9,8 @@ mfg:unsTopic. For every MQTT message it
   2. updates mfg:lastValue / mfg:lastUpdate on that node,
   3. if it is a state topic and the value changed, adds a mfg:StateChange
      event linked to the owning equipment (so history lands in the model),
+     with the harmonized state it left and the one it entered, so the model
+     can tell a legal transition from an impossible one,
   4. records topics that exist in the UNS but not in the model ("orphans"):
      the usual sign that someone added a tag without registering the asset.
 
@@ -25,7 +27,7 @@ import uuid
 from datetime import datetime, timezone
 
 import paho.mqtt.client as mqtt
-from rdflib import RDF, Graph, Literal, URIRef, XSD
+from rdflib import RDF, RDFS, Graph, Literal, URIRef, XSD
 
 from .graph import ID, MFG, load_plant
 
@@ -49,6 +51,8 @@ class UnsBridge:
             self.topic_to_dp[str(topic)] = dp
         for asset, dp in g.subject_objects(MFG.hasDataPoint):
             self.dp_to_asset[dp] = asset
+        # harmonized states by the exact text published in the UNS ("RUNNING" -> mfg:Running)
+        self.states = {str(g.value(st, RDFS.label)): st for st in g.subjects(RDF.type, MFG.OperatingState)}
         self.orphans: dict[str, str] = {}
         self.messages = 0
         self.events_added = 0
@@ -87,6 +91,10 @@ class UnsBridge:
                 self.g.add((ev, RDF.type, MFG.StateChange))
                 self.g.add((ev, MFG.occurredOn, self.dp_to_asset[dp]))
                 self.g.add((ev, MFG.toState, Literal(str(value))))
+                if str(value) in self.states:
+                    self.g.add((ev, MFG.toOperatingState, self.states[str(value)]))
+                if previous is not None and str(previous) in self.states:
+                    self.g.add((ev, MFG.fromOperatingState, self.states[str(previous)]))
                 self.g.add((ev, MFG.startTime, now))
                 self.events_added += 1
 

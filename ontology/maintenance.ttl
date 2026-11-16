@@ -1,24 +1,85 @@
 @prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
 @prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix nrg:  <https://w3id.org/industrial-ontology-lab/energy#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 
-# Maintenance extension: why equipment stopped and what was done about it.
+# Maintenance extension: why equipment stopped, what was done about it, and what was planned.
 <https://w3id.org/industrial-ontology-lab/maintenance> a owl:Ontology ;
-    owl:imports <https://w3id.org/industrial-ontology-lab/core> ; rdfs:label "Maintenance extension" .
+    owl:imports <https://w3id.org/industrial-ontology-lab/core> ;
+    rdfs:label "Maintenance extension" ; owl:versionInfo "2.0.0" .
 
 mnt:Downtime a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Downtime" ;
-    rdfs:comment "Interval in which equipment did not run when it should." .
-mnt:FailureMode a owl:Class ; rdfs:label "Failure mode" ;
-    rdfs:comment "How something fails (bearing wear, jam, sensor fault). Shared vocabulary, not free text." .
-mnt:MaintenanceOrder a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Maintenance order" .
-mnt:Component a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Component" ;
-    rdfs:comment "Replaceable part of an equipment (motor, bearing, valve)." .
+    rdfs:comment "An interval in which equipment did not run when it was scheduled to." ;
+    skos:example "filler-01 stopped 15 minutes for seal wear" .
 
-mnt:causedBy    a owl:ObjectProperty ; rdfs:domain mnt:Downtime ; rdfs:range mnt:FailureMode .
-mnt:affects     a owl:ObjectProperty ; rdfs:domain mnt:FailureMode ; rdfs:range mnt:Component .
-mnt:resolves    a owl:ObjectProperty ; rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:Downtime .
-mnt:replaced    a owl:ObjectProperty ; rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:Component .
-mnt:planned     a owl:DatatypeProperty ; rdfs:domain mnt:Downtime ; rdfs:range xsd:boolean ;
-    rdfs:comment "Planned stops (lunch, changeover) do not count against availability." .
+mnt:FailureMode a owl:Class ; rdfs:label "Failure mode" ;
+    rdfs:comment "The way something fails. A shared vocabulary instead of free text, so stops can be counted and compared." ;
+    skos:example "seal wear, bottle jam, motor overload" .
+
+mnt:Component a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Component" ;
+    rdfs:comment "A replaceable part of an equipment that maintenance tracks on its own." ;
+    skos:example "seal kit, main motor, valve block" .
+
+mnt:MaintenanceOrder a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Maintenance order" ;
+    rdfs:comment "A piece of maintenance work carried out on an asset." ;
+    skos:example "a repair after a failure, a scheduled seal replacement" ;
+    mfg:isAbstract true .
+
+mnt:CorrectiveOrder a owl:Class ; rdfs:subClassOf mnt:MaintenanceOrder ; rdfs:label "Corrective order" ;
+    rdfs:comment "Maintenance done because something failed." ;
+    skos:example "MO-0077: replace the seal kit after repeated stops" .
+
+mnt:PreventiveOrder a owl:Class ; rdfs:subClassOf mnt:MaintenanceOrder ; rdfs:label "Preventive order" ;
+    rdfs:comment "Maintenance done on schedule, before a failure." ;
+    skos:example "MO-0061: scheduled inspection of the main motor" .
+
+mnt:MaintenancePlan a owl:Class ; rdfs:label "Maintenance plan" ;
+    rdfs:comment "A recurring preventive task for a component, with its interval and next due date." ;
+    skos:example "replace the filler seal kit every 30 days" .
+
+mnt:SparePart a owl:Class ; rdfs:label "Spare part" ;
+    rdfs:comment "A stocked replacement for a component. It is held and fitted, not operated." ;
+    skos:example "seal kit SK-28 for the line 1 filler" .
+
+mnt:causedBy a owl:ObjectProperty ; rdfs:label "caused by" ;
+    rdfs:comment "The failure mode behind a stop." ;
+    rdfs:domain mnt:Downtime ; rdfs:range mnt:FailureMode .
+mnt:affects a owl:ObjectProperty ; rdfs:label "affects" ;
+    rdfs:comment "The component a failure mode damages or depends on." ;
+    rdfs:domain mnt:FailureMode ; rdfs:range mnt:Component .
+mnt:resolves a owl:ObjectProperty ; rdfs:label "resolves" ;
+    rdfs:comment "The stop a maintenance order was raised to fix." ;
+    rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:Downtime .
+mnt:replaced a owl:ObjectProperty ; rdfs:label "replaced" ;
+    rdfs:comment "The component exchanged during the order." ;
+    rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:Component .
+mnt:usedSpare a owl:ObjectProperty ; rdfs:label "used spare" ;
+    rdfs:comment "The spare part consumed by the order." ;
+    rdfs:domain mnt:MaintenanceOrder ; rdfs:range mnt:SparePart .
+mnt:covers a owl:ObjectProperty ; rdfs:label "covers" ;
+    rdfs:comment "The component a maintenance plan keeps in condition." ;
+    rdfs:domain mnt:MaintenancePlan ; rdfs:range mnt:Component .
+mnt:fits a owl:ObjectProperty ; rdfs:label "fits" ;
+    rdfs:comment "The component a spare part can replace." ;
+    rdfs:domain mnt:SparePart ; rdfs:range mnt:Component .
+mnt:planned a owl:DatatypeProperty ; rdfs:label "planned" ;
+    rdfs:comment "True for stops that were scheduled, such as lunch. Planned stops do not count against availability." ;
+    rdfs:domain mnt:Downtime ; rdfs:range xsd:boolean .
+mnt:intervalDays a owl:DatatypeProperty ; rdfs:label "interval days" ;
+    rdfs:comment "Days between two executions of the plan." ;
+    rdfs:domain mnt:MaintenancePlan ; rdfs:range xsd:integer .
+mnt:lastExecuted a owl:DatatypeProperty ; rdfs:label "last executed" ;
+    rdfs:comment "When the plan was last carried out." ;
+    rdfs:domain mnt:MaintenancePlan ; rdfs:range xsd:dateTime .
+mnt:dueDate a owl:DatatypeProperty ; rdfs:label "due date" ;
+    rdfs:comment "When the plan must be carried out next." ;
+    rdfs:domain mnt:MaintenancePlan ; rdfs:range xsd:dateTime .
+mnt:stockQty a owl:DatatypeProperty ; rdfs:label "stock quantity" ;
+    rdfs:comment "Units of the spare part on hand." ;
+    rdfs:domain mnt:SparePart ; rdfs:range xsd:integer .

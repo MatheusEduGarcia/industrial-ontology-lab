@@ -3,6 +3,7 @@
 @prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
 @prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
 @prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix shp:  <https://w3id.org/industrial-ontology-lab/shapes#> .
@@ -60,3 +61,57 @@ shp:InspectionShape a sh:NodeShape ;
     sh:property [ sh:path qa:result ; sh:minCount 1 ; sh:in ( "PASS" "HOLD" "REJECT" ) ;
                   sh:message "Inspection result must be PASS, HOLD or REJECT." ] ;
     sh:property [ sh:path qa:inspects ; sh:minCount 1 ; sh:class prd:Lot ] .
+
+# ---------------------------------------------------------------------------
+# Version 2 contracts
+# ---------------------------------------------------------------------------
+
+shp:MeasurementShape a sh:NodeShape ;
+    sh:targetClass qa:Measurement ;
+    sh:property [ sh:path qa:ofCharacteristic ; sh:minCount 1 ; sh:maxCount 1 ; sh:class qa:Characteristic ;
+                  sh:message "A measurement must say which characteristic was measured." ] ;
+    sh:property [ sh:path qa:value ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+                  sh:message "A measurement needs exactly one numeric value." ] .
+
+shp:SpecificationShape a sh:NodeShape ;
+    sh:targetClass qa:Specification ;
+    sh:property [ sh:path qa:specFor ; sh:minCount 1 ; sh:class prd:Product ;
+                  sh:message "A specification must name the product it applies to." ] ;
+    sh:property [ sh:path qa:ofCharacteristic ; sh:minCount 1 ; sh:class qa:Characteristic ] ;
+    sh:sparql [
+        sh:message "The lower limit must be below the upper limit." ;
+        sh:select """
+            PREFIX qa: <https://w3id.org/industrial-ontology-lab/quality#>
+            SELECT $this WHERE { $this qa:lowerLimit ?lo ; qa:upperLimit ?hi . FILTER(?lo >= ?hi) }
+        """ ] .
+
+shp:NonConformanceShape a sh:NodeShape ;
+    sh:targetClass qa:NonConformance ;
+    sh:property [ sh:path qa:concerns ; sh:minCount 1 ; sh:class prd:Lot ;
+                  sh:message "A non-conformance must point at the lot it is about." ] ;
+    sh:property [ sh:path qa:disposition ; sh:minCount 1 ;
+                  sh:in ( "UNDER_INVESTIGATION" "REWORK" "SCRAP" "RELEASE" ) ;
+                  sh:message "Disposition must be UNDER_INVESTIGATION, REWORK, SCRAP or RELEASE." ] .
+
+shp:MaintenancePlanShape a sh:NodeShape ;
+    sh:targetClass mnt:MaintenancePlan ;
+    sh:property [ sh:path mnt:covers ; sh:minCount 1 ; sh:class mnt:Component ;
+                  sh:message "A maintenance plan must cover a component." ] ;
+    sh:property [ sh:path mnt:intervalDays ; sh:minCount 1 ; sh:minExclusive 0 ;
+                  sh:message "The interval must be a positive number of days." ] ;
+    sh:property [ sh:path mnt:dueDate ; sh:minCount 1 ; sh:datatype xsd:dateTime ;
+                  sh:message "A plan without a due date can never be overdue." ] .
+
+shp:MaterialLotShape a sh:NodeShape ;
+    sh:targetClass inv:MaterialLot ;
+    sh:property [ sh:path inv:suppliedBy ; sh:minCount 1 ; sh:class inv:Supplier ;
+                  sh:message "A material lot without a supplier cannot be traced back." ] ;
+    sh:property [ sh:path inv:materialOf ; sh:minCount 1 ; sh:class inv:Material ] .
+
+shp:StockItemShape a sh:NodeShape ;
+    sh:targetClass inv:StockItem ;
+    sh:property [ sh:path inv:stockOf ; sh:minCount 1 ; sh:maxCount 1 ; sh:class inv:MaterialLot ] ;
+    sh:property [ sh:path inv:storedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class inv:StorageLocation ;
+                  sh:message "Stock must be in exactly one storage location." ] ;
+    sh:property [ sh:path inv:quantity ; sh:minCount 1 ; sh:minInclusive 0 ;
+                  sh:message "Stock quantity cannot be negative." ] .

@@ -1,0 +1,2230 @@
+[
+ {
+  "name": "Area",
+  "curie": "mfg:Area",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Area",
+  "kind": "class",
+  "module": "core",
+  "label": "Area",
+  "definition": "A part of a site organized around one kind of work.",
+  "examples": [
+   "packaging, utilities, warehouse"
+  ],
+  "parents": [
+   "mfg:Asset"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Asset",
+  "curie": "mfg:Asset",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Asset",
+  "kind": "class",
+  "module": "core",
+  "label": "Asset",
+  "definition": "Anything in the equipment hierarchy that has a stable identity.",
+  "examples": [
+   "a site, a packaging line, a filler, a seal kit"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": true,
+  "transitive": false
+ },
+ {
+  "name": "Capability",
+  "curie": "mfg:Capability",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Capability",
+  "kind": "class",
+  "module": "core",
+  "label": "Capability",
+  "definition": "Something an equipment is able to do, stated independently of any product or order. Matching what a product requires with what a line offers answers where the product can run.",
+  "examples": [
+   "fill 500 ml PET bottles, apply 28 mm caps, wrap-around labelling"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "DataPoint",
+  "curie": "mfg:DataPoint",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#DataPoint",
+  "kind": "class",
+  "module": "core",
+  "label": "Data point",
+  "definition": "A measured or derived value that belongs to an asset: a PLC tag, a sensor reading, a computed KPI.",
+  "examples": [
+   "the speed of filler-01, the state of capper-01"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Enterprise",
+  "curie": "mfg:Enterprise",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Enterprise",
+  "kind": "class",
+  "module": "core",
+  "label": "Enterprise",
+  "definition": "The company as a whole, the root of the hierarchy.",
+  "examples": [
+   "ACME Beverages"
+  ],
+  "parents": [
+   "mfg:Asset"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Equipment",
+  "curie": "mfg:Equipment",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Equipment",
+  "kind": "class",
+  "module": "core",
+  "label": "Equipment",
+  "definition": "ISA-95 work cell or unit: one machine that runs, stops and produces.",
+  "examples": [
+   "filler-01 of line 1"
+  ],
+  "parents": [
+   "mfg:Asset"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "EquipmentClass",
+  "curie": "mfg:EquipmentClass",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#EquipmentClass",
+  "kind": "class",
+  "module": "core",
+  "label": "Equipment class",
+  "definition": "A catalogue entry for a kind of equipment. It describes the type, while Equipment is one installed machine of that type.",
+  "examples": [
+   "filler, capper, labeler"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Event",
+  "curie": "mfg:Event",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Event",
+  "kind": "class",
+  "module": "core",
+  "label": "Event",
+  "definition": "Something that happened to an asset over a period of time. Every domain event inherits where and when from here, which is what lets them be crossed.",
+  "examples": [
+   "a production run, a stop, an inspection, a maintenance order"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": true,
+  "transitive": false
+ },
+ {
+  "name": "Line",
+  "curie": "mfg:Line",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Line",
+  "kind": "class",
+  "module": "core",
+  "label": "Production line",
+  "definition": "A set of equipment arranged to make product in sequence. Orders are scheduled on lines.",
+  "examples": [
+   "Line 1: filler, capper and labeler"
+  ],
+  "parents": [
+   "mfg:Asset"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "OperatingState",
+  "curie": "mfg:OperatingState",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#OperatingState",
+  "kind": "class",
+  "module": "core",
+  "label": "Operating state",
+  "definition": "One of the harmonized states every equipment reports, whatever its vendor calls them. The label is the exact text published in the UNS.",
+  "examples": [
+   "RUNNING, IDLE, STOPPED, FAULTED"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Person",
+  "curie": "mfg:Person",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Person",
+  "kind": "class",
+  "module": "core",
+  "label": "Person",
+  "definition": "Someone who performs or is accountable for work in the plant.",
+  "examples": [
+   "a maintenance technician, a quality inspector"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Role",
+  "curie": "mfg:Role",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Role",
+  "kind": "class",
+  "module": "core",
+  "label": "Role",
+  "definition": "A function a person performs. Kept apart from the person because people change roles and one role is held by many people.",
+  "examples": [
+   "maintenance technician, quality inspector, line operator"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Site",
+  "curie": "mfg:Site",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Site",
+  "kind": "class",
+  "module": "core",
+  "label": "Site",
+  "definition": "A plant at one geographic location.",
+  "examples": [
+   "São Paulo plant, Curitiba plant"
+  ],
+  "parents": [
+   "mfg:Asset"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "StateChange",
+  "curie": "mfg:StateChange",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#StateChange",
+  "kind": "class",
+  "module": "core",
+  "label": "State change",
+  "definition": "The moment an equipment moved from one operating state to another.",
+  "examples": [
+   "filler-01 went from RUNNING to FAULTED at 09:00"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Consumption",
+  "curie": "nrg:Consumption",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#Consumption",
+  "kind": "class",
+  "module": "energy",
+  "label": "Consumption interval",
+  "definition": "The energy a meter recorded between two instants.",
+  "examples": [
+   "612 kWh on line 1 during the morning shift"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "EnergyBaseline",
+  "curie": "nrg:EnergyBaseline",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#EnergyBaseline",
+  "kind": "class",
+  "module": "energy",
+  "label": "Energy baseline",
+  "definition": "The energy a product is expected to take per thousand good units, with the tolerance before it counts as a deviation.",
+  "examples": [
+   "still water 500 ml: 3.5 kWh per 1,000 bottles, tolerance 15 %"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "EnergyCarrier",
+  "curie": "nrg:EnergyCarrier",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#EnergyCarrier",
+  "kind": "class",
+  "module": "energy",
+  "label": "Energy carrier",
+  "definition": "The form in which energy reaches the equipment.",
+  "examples": [
+   "electricity, compressed air, steam"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "EnergyMeter",
+  "curie": "nrg:EnergyMeter",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#EnergyMeter",
+  "kind": "class",
+  "module": "energy",
+  "label": "Energy meter",
+  "definition": "A data point that accumulates the energy used by an asset.",
+  "examples": [
+   "the electricity meter of line 1"
+  ],
+  "parents": [
+   "mfg:DataPoint"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Material",
+  "curie": "inv:Material",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#Material",
+  "kind": "class",
+  "module": "inventory",
+  "label": "Material",
+  "definition": "A raw or packaging material, as an item in the catalogue.",
+  "examples": [
+   "cap 28 mm, PET preform, label"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "MaterialLot",
+  "curie": "inv:MaterialLot",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#MaterialLot",
+  "kind": "class",
+  "module": "inventory",
+  "label": "Material lot",
+  "definition": "One delivery of a material from one supplier, traceable as a unit.",
+  "examples": [
+   "ML-2207: caps 28 mm delivered by Cap Co"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "StockItem",
+  "curie": "inv:StockItem",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#StockItem",
+  "kind": "class",
+  "module": "inventory",
+  "label": "Stock item",
+  "definition": "The quantity of one material lot that sits in one storage location right now.",
+  "examples": [
+   "12,000 caps of lot ML-2207 in rack A-03"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "StorageLocation",
+  "curie": "inv:StorageLocation",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#StorageLocation",
+  "kind": "class",
+  "module": "inventory",
+  "label": "Storage location",
+  "definition": "A place where material is kept, in a warehouse or at the line.",
+  "examples": [
+   "warehouse rack A-03, point of use at line 1"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Supplier",
+  "curie": "inv:Supplier",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#Supplier",
+  "kind": "class",
+  "module": "inventory",
+  "label": "Supplier",
+  "definition": "A company that delivers material.",
+  "examples": [
+   "Cap Co, Seal Systems"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Component",
+  "curie": "mnt:Component",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#Component",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Component",
+  "definition": "A replaceable part of an equipment that maintenance tracks on its own.",
+  "examples": [
+   "seal kit, main motor, valve block"
+  ],
+  "parents": [
+   "mfg:Asset"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "CorrectiveOrder",
+  "curie": "mnt:CorrectiveOrder",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#CorrectiveOrder",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Corrective order",
+  "definition": "Maintenance done because something failed.",
+  "examples": [
+   "MO-0077: replace the seal kit after repeated stops"
+  ],
+  "parents": [
+   "mnt:MaintenanceOrder"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Downtime",
+  "curie": "mnt:Downtime",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#Downtime",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Downtime",
+  "definition": "An interval in which equipment did not run when it was scheduled to.",
+  "examples": [
+   "filler-01 stopped 15 minutes for seal wear"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "FailureMode",
+  "curie": "mnt:FailureMode",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#FailureMode",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Failure mode",
+  "definition": "The way something fails. A shared vocabulary instead of free text, so stops can be counted and compared.",
+  "examples": [
+   "seal wear, bottle jam, motor overload"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "MaintenanceOrder",
+  "curie": "mnt:MaintenanceOrder",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#MaintenanceOrder",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Maintenance order",
+  "definition": "A piece of maintenance work carried out on an asset.",
+  "examples": [
+   "a repair after a failure, a scheduled seal replacement"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": true,
+  "transitive": false
+ },
+ {
+  "name": "MaintenancePlan",
+  "curie": "mnt:MaintenancePlan",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#MaintenancePlan",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Maintenance plan",
+  "definition": "A recurring preventive task for a component, with its interval and next due date.",
+  "examples": [
+   "replace the filler seal kit every 30 days"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "PreventiveOrder",
+  "curie": "mnt:PreventiveOrder",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#PreventiveOrder",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Preventive order",
+  "definition": "Maintenance done on schedule, before a failure.",
+  "examples": [
+   "MO-0061: scheduled inspection of the main motor"
+  ],
+  "parents": [
+   "mnt:MaintenanceOrder"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "SparePart",
+  "curie": "mnt:SparePart",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#SparePart",
+  "kind": "class",
+  "module": "maintenance",
+  "label": "Spare part",
+  "definition": "A stocked replacement for a component. It is held and fitted, not operated.",
+  "examples": [
+   "seal kit SK-28 for the line 1 filler"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Changeover",
+  "curie": "prd:Changeover",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#Changeover",
+  "kind": "class",
+  "module": "production",
+  "label": "Changeover",
+  "definition": "The planned time spent switching a line from one product or format to another.",
+  "examples": [
+   "line 3 switching from 500 ml to 1 l bottles"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Lot",
+  "curie": "prd:Lot",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#Lot",
+  "kind": "class",
+  "module": "production",
+  "label": "Lot",
+  "definition": "The traceable quantity of product made in one run. Quality decisions and recalls are taken per lot.",
+  "examples": [
+   "L-1042"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Product",
+  "curie": "prd:Product",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#Product",
+  "kind": "class",
+  "module": "production",
+  "label": "Product",
+  "definition": "A sellable item, identified by its SKU.",
+  "examples": [
+   "still water 500 ml, orange juice 1 l"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "ProductionRun",
+  "curie": "prd:ProductionRun",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#ProductionRun",
+  "kind": "class",
+  "module": "production",
+  "label": "Production run",
+  "definition": "The execution of a work order on equipment between a start and an end time.",
+  "examples": [
+   "R-1042 on filler-01 of line 1, 08:00 to 10:00"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Shift",
+  "curie": "prd:Shift",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#Shift",
+  "kind": "class",
+  "module": "production",
+  "label": "Shift",
+  "definition": "A scheduled working period of a site. KPIs are usually reported per shift.",
+  "examples": [
+   "morning shift, 06:00 to 14:00"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "WorkOrder",
+  "curie": "prd:WorkOrder",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#WorkOrder",
+  "kind": "class",
+  "module": "production",
+  "label": "Work order",
+  "definition": "A request to produce a quantity of one product.",
+  "examples": [
+   "WO-1042: 46,000 bottles of still water 500 ml"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Characteristic",
+  "curie": "qa:Characteristic",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#Characteristic",
+  "kind": "class",
+  "module": "quality",
+  "label": "Characteristic",
+  "definition": "A measurable property of the product that quality controls.",
+  "examples": [
+   "cap removal torque, fill volume"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "DefectType",
+  "curie": "qa:DefectType",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#DefectType",
+  "kind": "class",
+  "module": "quality",
+  "label": "Defect type",
+  "definition": "A named kind of defect, counted the same way everywhere.",
+  "examples": [
+   "leak at cap, label skewed"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Finding",
+  "curie": "qa:Finding",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#Finding",
+  "kind": "class",
+  "module": "quality",
+  "label": "Finding",
+  "definition": "One defect type found in one inspection, with how many units showed it.",
+  "examples": [
+   "37 leaks at cap in inspection Q-1042"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Inspection",
+  "curie": "qa:Inspection",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#Inspection",
+  "kind": "class",
+  "module": "quality",
+  "label": "Inspection",
+  "definition": "A quality check carried out on a lot, ending in a decision.",
+  "examples": [
+   "Q-1042: inspection of lot L-1042, result HOLD"
+  ],
+  "parents": [
+   "mfg:Event"
+  ],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Measurement",
+  "curie": "qa:Measurement",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#Measurement",
+  "kind": "class",
+  "module": "quality",
+  "label": "Measurement",
+  "definition": "One measured value of a characteristic, taken during an inspection.",
+  "examples": [
+   "1.31 N·m on a sample of lot L-1043"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "NonConformance",
+  "curie": "qa:NonConformance",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#NonConformance",
+  "kind": "class",
+  "module": "quality",
+  "label": "Non-conformance",
+  "definition": "A formal record that a lot does not meet requirements, with what was decided about it.",
+  "examples": [
+   "NC-002: lot L-1043 rejected for leaks, to be scrapped"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Specification",
+  "curie": "qa:Specification",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#Specification",
+  "kind": "class",
+  "module": "quality",
+  "label": "Specification",
+  "definition": "The accepted range of one characteristic for one product.",
+  "examples": [
+   "cap removal torque of still water 500 ml: 1.4 to 2.0 N·m"
+  ],
+  "parents": [],
+  "domain": [],
+  "range": [],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "canTransitionTo",
+  "curie": "mfg:canTransitionTo",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#canTransitionTo",
+  "kind": "relation",
+  "module": "core",
+  "label": "can transition to",
+  "definition": "A state change that is physically and procedurally possible. A reported change that is not listed here signals a data or integration problem.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:OperatingState"
+  ],
+  "range": [
+   "mfg:OperatingState"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "fromOperatingState",
+  "curie": "mfg:fromOperatingState",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#fromOperatingState",
+  "kind": "relation",
+  "module": "core",
+  "label": "from operating state",
+  "definition": "The harmonized state the equipment was in before the change.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:StateChange"
+  ],
+  "range": [
+   "mfg:OperatingState"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "hasCapability",
+  "curie": "mfg:hasCapability",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#hasCapability",
+  "kind": "relation",
+  "module": "core",
+  "label": "has capability",
+  "definition": "What this equipment is able to do in its current configuration.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Equipment"
+  ],
+  "range": [
+   "mfg:Capability"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "hasDataPoint",
+  "curie": "mfg:hasDataPoint",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#hasDataPoint",
+  "kind": "relation",
+  "module": "core",
+  "label": "has data point",
+  "definition": "The values available for this asset.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Asset"
+  ],
+  "range": [
+   "mfg:DataPoint"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "hasPart",
+  "curie": "mfg:hasPart",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#hasPart",
+  "kind": "relation",
+  "module": "core",
+  "label": "has part",
+  "definition": "Inverse of partOf: the assets directly contained in this one.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Asset"
+  ],
+  "range": [
+   "mfg:Asset"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "hasRole",
+  "curie": "mfg:hasRole",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#hasRole",
+  "kind": "relation",
+  "module": "core",
+  "label": "has role",
+  "definition": "The function this person performs.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Person"
+  ],
+  "range": [
+   "mfg:Role"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "occurredOn",
+  "curie": "mfg:occurredOn",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#occurredOn",
+  "kind": "relation",
+  "module": "core",
+  "label": "occurred on",
+  "definition": "The asset the event happened to.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Event"
+  ],
+  "range": [
+   "mfg:Asset"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "ofClass",
+  "curie": "mfg:ofClass",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#ofClass",
+  "kind": "relation",
+  "module": "core",
+  "label": "of class",
+  "definition": "The kind of equipment this machine is.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Equipment"
+  ],
+  "range": [
+   "mfg:EquipmentClass"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "partOf",
+  "curie": "mfg:partOf",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#partOf",
+  "kind": "relation",
+  "module": "core",
+  "label": "part of",
+  "definition": "Containment in the equipment hierarchy. Transitive: a filler partOf line 1 partOf area partOf site.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Asset"
+  ],
+  "range": [
+   "mfg:Asset"
+  ],
+  "abstract": false,
+  "transitive": true
+ },
+ {
+  "name": "performedBy",
+  "curie": "mfg:performedBy",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#performedBy",
+  "kind": "relation",
+  "module": "core",
+  "label": "performed by",
+  "definition": "Who carried out the event.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Event"
+  ],
+  "range": [
+   "mfg:Person"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "toOperatingState",
+  "curie": "mfg:toOperatingState",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#toOperatingState",
+  "kind": "relation",
+  "module": "core",
+  "label": "to operating state",
+  "definition": "The harmonized state the equipment entered.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:StateChange"
+  ],
+  "range": [
+   "mfg:OperatingState"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "baselineFor",
+  "curie": "nrg:baselineFor",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#baselineFor",
+  "kind": "relation",
+  "module": "energy",
+  "label": "baseline for",
+  "definition": "The product an energy baseline applies to.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:EnergyBaseline"
+  ],
+  "range": [
+   "prd:Product"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "carrier",
+  "curie": "nrg:carrier",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#carrier",
+  "kind": "relation",
+  "module": "energy",
+  "label": "carrier",
+  "definition": "The energy carrier a meter measures.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:EnergyMeter"
+  ],
+  "range": [
+   "nrg:EnergyCarrier"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "measuredBy",
+  "curie": "nrg:measuredBy",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#measuredBy",
+  "kind": "relation",
+  "module": "energy",
+  "label": "measured by",
+  "definition": "The meter that recorded a consumption interval.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:Consumption"
+  ],
+  "range": [
+   "nrg:EnergyMeter"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "meters",
+  "curie": "nrg:meters",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#meters",
+  "kind": "relation",
+  "module": "energy",
+  "label": "meters",
+  "definition": "The asset a meter measures. A meter on a line measures all of its equipment.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:EnergyMeter"
+  ],
+  "range": [
+   "mfg:Asset"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "consumed",
+  "curie": "inv:consumed",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#consumed",
+  "kind": "relation",
+  "module": "inventory",
+  "label": "consumed",
+  "definition": "Genealogy link: the material lots that went into a run.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:ProductionRun"
+  ],
+  "range": [
+   "inv:MaterialLot"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "locatedIn",
+  "curie": "inv:locatedIn",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#locatedIn",
+  "kind": "relation",
+  "module": "inventory",
+  "label": "located in",
+  "definition": "The asset, usually a site or a line, where a storage location is.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:StorageLocation"
+  ],
+  "range": [
+   "mfg:Asset"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "materialOf",
+  "curie": "inv:materialOf",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#materialOf",
+  "kind": "relation",
+  "module": "inventory",
+  "label": "material of",
+  "definition": "The catalogue material a lot is made of.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:MaterialLot"
+  ],
+  "range": [
+   "inv:Material"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "stockOf",
+  "curie": "inv:stockOf",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#stockOf",
+  "kind": "relation",
+  "module": "inventory",
+  "label": "stock of",
+  "definition": "The material lot a stock item holds.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:StockItem"
+  ],
+  "range": [
+   "inv:MaterialLot"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "storedAt",
+  "curie": "inv:storedAt",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#storedAt",
+  "kind": "relation",
+  "module": "inventory",
+  "label": "stored at",
+  "definition": "Where a stock item sits.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:StockItem"
+  ],
+  "range": [
+   "inv:StorageLocation"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "suppliedBy",
+  "curie": "inv:suppliedBy",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#suppliedBy",
+  "kind": "relation",
+  "module": "inventory",
+  "label": "supplied by",
+  "definition": "The supplier that delivered a material lot.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:MaterialLot"
+  ],
+  "range": [
+   "inv:Supplier"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "affects",
+  "curie": "mnt:affects",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#affects",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "affects",
+  "definition": "The component a failure mode damages or depends on.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:FailureMode"
+  ],
+  "range": [
+   "mnt:Component"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "causedBy",
+  "curie": "mnt:causedBy",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#causedBy",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "caused by",
+  "definition": "The failure mode behind a stop.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:Downtime"
+  ],
+  "range": [
+   "mnt:FailureMode"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "covers",
+  "curie": "mnt:covers",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#covers",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "covers",
+  "definition": "The component a maintenance plan keeps in condition.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenancePlan"
+  ],
+  "range": [
+   "mnt:Component"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "fits",
+  "curie": "mnt:fits",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#fits",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "fits",
+  "definition": "The component a spare part can replace.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:SparePart"
+  ],
+  "range": [
+   "mnt:Component"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "replaced",
+  "curie": "mnt:replaced",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#replaced",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "replaced",
+  "definition": "The component exchanged during the order.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenanceOrder"
+  ],
+  "range": [
+   "mnt:Component"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "resolves",
+  "curie": "mnt:resolves",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#resolves",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "resolves",
+  "definition": "The stop a maintenance order was raised to fix.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenanceOrder"
+  ],
+  "range": [
+   "mnt:Downtime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "usedSpare",
+  "curie": "mnt:usedSpare",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#usedSpare",
+  "kind": "relation",
+  "module": "maintenance",
+  "label": "used spare",
+  "definition": "The spare part consumed by the order.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenanceOrder"
+  ],
+  "range": [
+   "mnt:SparePart"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "executes",
+  "curie": "prd:executes",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#executes",
+  "kind": "relation",
+  "module": "production",
+  "label": "executes",
+  "definition": "The work order a run is fulfilling.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:ProductionRun"
+  ],
+  "range": [
+   "prd:WorkOrder"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "forProduct",
+  "curie": "prd:forProduct",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#forProduct",
+  "kind": "relation",
+  "module": "production",
+  "label": "for product",
+  "definition": "The product a work order asks for.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:WorkOrder"
+  ],
+  "range": [
+   "prd:Product"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "lotOf",
+  "curie": "prd:lotOf",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#lotOf",
+  "kind": "relation",
+  "module": "production",
+  "label": "lot of",
+  "definition": "The product a lot contains.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:Lot"
+  ],
+  "range": [
+   "prd:Product"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "produced",
+  "curie": "prd:produced",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#produced",
+  "kind": "relation",
+  "module": "production",
+  "label": "produced",
+  "definition": "The lot that came out of a run.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:ProductionRun"
+  ],
+  "range": [
+   "prd:Lot"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "requiresCapability",
+  "curie": "prd:requiresCapability",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#requiresCapability",
+  "kind": "relation",
+  "module": "production",
+  "label": "requires capability",
+  "definition": "What equipment must be able to do for this product to be made. A line can run the product when its equipment covers every required capability.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:Product"
+  ],
+  "range": [
+   "mfg:Capability"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "toProduct",
+  "curie": "prd:toProduct",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#toProduct",
+  "kind": "relation",
+  "module": "production",
+  "label": "to product",
+  "definition": "The product a changeover prepares the line for.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:Changeover"
+  ],
+  "range": [
+   "prd:Product"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "concerns",
+  "curie": "qa:concerns",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#concerns",
+  "kind": "relation",
+  "module": "quality",
+  "label": "concerns",
+  "definition": "The lot a non-conformance is about.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:NonConformance"
+  ],
+  "range": [
+   "prd:Lot"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "defectType",
+  "curie": "qa:defectType",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#defectType",
+  "kind": "relation",
+  "module": "quality",
+  "label": "defect type",
+  "definition": "Which kind of defect a finding counts.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Finding"
+  ],
+  "range": [
+   "qa:DefectType"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "hasFinding",
+  "curie": "qa:hasFinding",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#hasFinding",
+  "kind": "relation",
+  "module": "quality",
+  "label": "has finding",
+  "definition": "The defects an inspection counted.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Inspection"
+  ],
+  "range": [
+   "qa:Finding"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "hasMeasurement",
+  "curie": "qa:hasMeasurement",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#hasMeasurement",
+  "kind": "relation",
+  "module": "quality",
+  "label": "has measurement",
+  "definition": "The values measured during an inspection.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Inspection"
+  ],
+  "range": [
+   "qa:Measurement"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "inspects",
+  "curie": "qa:inspects",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#inspects",
+  "kind": "relation",
+  "module": "quality",
+  "label": "inspects",
+  "definition": "The lot an inspection examined.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Inspection"
+  ],
+  "range": [
+   "prd:Lot"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "ofCharacteristic",
+  "curie": "qa:ofCharacteristic",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#ofCharacteristic",
+  "kind": "relation",
+  "module": "quality",
+  "label": "of characteristic",
+  "definition": "The characteristic a measurement or a specification refers to.",
+  "examples": [],
+  "parents": [],
+  "domain": [],
+  "range": [
+   "qa:Characteristic"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "raisedBy",
+  "curie": "qa:raisedBy",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#raisedBy",
+  "kind": "relation",
+  "module": "quality",
+  "label": "raised by",
+  "definition": "The inspection that opened the non-conformance.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:NonConformance"
+  ],
+  "range": [
+   "qa:Inspection"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "specFor",
+  "curie": "qa:specFor",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#specFor",
+  "kind": "relation",
+  "module": "quality",
+  "label": "specification for",
+  "definition": "The product a specification applies to.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Specification"
+  ],
+  "range": [
+   "prd:Product"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "assetId",
+  "curie": "mfg:assetId",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#assetId",
+  "kind": "attribute",
+  "module": "core",
+  "label": "asset id",
+  "definition": "Stable business identifier, the same in UNS, MES and CMMS.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Asset"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "endTime",
+  "curie": "mfg:endTime",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#endTime",
+  "kind": "attribute",
+  "module": "core",
+  "label": "end time",
+  "definition": "When the event ended. Absent while the event is still open.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Event"
+  ],
+  "range": [
+   "dateTime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "isProductive",
+  "curie": "mfg:isProductive",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#isProductive",
+  "kind": "attribute",
+  "module": "core",
+  "label": "is productive",
+  "definition": "True when time in this state counts as running time for availability.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:OperatingState"
+  ],
+  "range": [
+   "boolean"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "lastUpdate",
+  "curie": "mfg:lastUpdate",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#lastUpdate",
+  "kind": "attribute",
+  "module": "core",
+  "label": "last update",
+  "definition": "When lastValue was received.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:DataPoint"
+  ],
+  "range": [
+   "dateTime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "lastValue",
+  "curie": "mfg:lastValue",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#lastValue",
+  "kind": "attribute",
+  "module": "core",
+  "label": "last value",
+  "definition": "Most recent value received from the UNS. Written by the bridge, never by hand.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:DataPoint"
+  ],
+  "range": [
+   "Literal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "startTime",
+  "curie": "mfg:startTime",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#startTime",
+  "kind": "attribute",
+  "module": "core",
+  "label": "start time",
+  "definition": "When the event began.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:Event"
+  ],
+  "range": [
+   "dateTime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "toState",
+  "curie": "mfg:toState",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#toState",
+  "kind": "attribute",
+  "module": "core",
+  "label": "to state",
+  "definition": "The state text exactly as received, kept even when it matches no known operating state.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:StateChange"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "unit",
+  "curie": "mfg:unit",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#unit",
+  "kind": "attribute",
+  "module": "core",
+  "label": "unit",
+  "definition": "Engineering unit of the value.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:DataPoint"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "unsTopic",
+  "curie": "mfg:unsTopic",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#unsTopic",
+  "kind": "attribute",
+  "module": "core",
+  "label": "UNS topic",
+  "definition": "Where the live value of this data point is published in the Unified Namespace.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mfg:DataPoint"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "expectedKwhPer1000",
+  "curie": "nrg:expectedKwhPer1000",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#expectedKwhPer1000",
+  "kind": "attribute",
+  "module": "energy",
+  "label": "expected kWh per 1,000",
+  "definition": "Expected energy per thousand good units.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:EnergyBaseline"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "kWh",
+  "curie": "nrg:kWh",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#kWh",
+  "kind": "attribute",
+  "module": "energy",
+  "label": "kWh",
+  "definition": "Energy recorded in the interval, in kilowatt-hours.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:Consumption"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "tolerancePct",
+  "curie": "nrg:tolerancePct",
+  "iri": "https://w3id.org/industrial-ontology-lab/energy#tolerancePct",
+  "kind": "attribute",
+  "module": "energy",
+  "label": "tolerance percent",
+  "definition": "How far above the expected value is still accepted, in percent.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "nrg:EnergyBaseline"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "quantity",
+  "curie": "inv:quantity",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#quantity",
+  "kind": "attribute",
+  "module": "inventory",
+  "label": "quantity",
+  "definition": "Units on hand in the stock item.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:StockItem"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "receivedOn",
+  "curie": "inv:receivedOn",
+  "iri": "https://w3id.org/industrial-ontology-lab/inventory#receivedOn",
+  "kind": "attribute",
+  "module": "inventory",
+  "label": "received on",
+  "definition": "When the material lot arrived.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "inv:MaterialLot"
+  ],
+  "range": [
+   "dateTime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "dueDate",
+  "curie": "mnt:dueDate",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#dueDate",
+  "kind": "attribute",
+  "module": "maintenance",
+  "label": "due date",
+  "definition": "When the plan must be carried out next.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenancePlan"
+  ],
+  "range": [
+   "dateTime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "intervalDays",
+  "curie": "mnt:intervalDays",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#intervalDays",
+  "kind": "attribute",
+  "module": "maintenance",
+  "label": "interval days",
+  "definition": "Days between two executions of the plan.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenancePlan"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "lastExecuted",
+  "curie": "mnt:lastExecuted",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#lastExecuted",
+  "kind": "attribute",
+  "module": "maintenance",
+  "label": "last executed",
+  "definition": "When the plan was last carried out.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:MaintenancePlan"
+  ],
+  "range": [
+   "dateTime"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "planned",
+  "curie": "mnt:planned",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#planned",
+  "kind": "attribute",
+  "module": "maintenance",
+  "label": "planned",
+  "definition": "True for stops that were scheduled, such as lunch. Planned stops do not count against availability.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:Downtime"
+  ],
+  "range": [
+   "boolean"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "stockQty",
+  "curie": "mnt:stockQty",
+  "iri": "https://w3id.org/industrial-ontology-lab/maintenance#stockQty",
+  "kind": "attribute",
+  "module": "maintenance",
+  "label": "stock quantity",
+  "definition": "Units of the spare part on hand.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "mnt:SparePart"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "goodQty",
+  "curie": "prd:goodQty",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#goodQty",
+  "kind": "attribute",
+  "module": "production",
+  "label": "good quantity",
+  "definition": "Units that left the run accepted.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:ProductionRun"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "idealCycleSeconds",
+  "curie": "prd:idealCycleSeconds",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#idealCycleSeconds",
+  "kind": "attribute",
+  "module": "production",
+  "label": "ideal cycle seconds",
+  "definition": "Ideal time to make one unit, the basis of OEE performance.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:Product"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "rejectQty",
+  "curie": "prd:rejectQty",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#rejectQty",
+  "kind": "attribute",
+  "module": "production",
+  "label": "reject quantity",
+  "definition": "Units rejected during the run.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:ProductionRun"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "targetQty",
+  "curie": "prd:targetQty",
+  "iri": "https://w3id.org/industrial-ontology-lab/production#targetQty",
+  "kind": "attribute",
+  "module": "production",
+  "label": "target quantity",
+  "definition": "Units the work order asks for.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "prd:WorkOrder"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "characteristicUnit",
+  "curie": "qa:characteristicUnit",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#characteristicUnit",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "characteristic unit",
+  "definition": "Unit in which the characteristic is measured.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Characteristic"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "defectCount",
+  "curie": "qa:defectCount",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#defectCount",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "defect count",
+  "definition": "Units showing the defect.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Finding"
+  ],
+  "range": [
+   "integer"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "disposition",
+  "curie": "qa:disposition",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#disposition",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "disposition",
+  "definition": "What was decided for the lot: UNDER_INVESTIGATION, REWORK, SCRAP or RELEASE.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:NonConformance"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "lowerLimit",
+  "curie": "qa:lowerLimit",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#lowerLimit",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "lower limit",
+  "definition": "Smallest accepted value.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Specification"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "result",
+  "curie": "qa:result",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#result",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "result",
+  "definition": "The decision of the inspection: PASS, HOLD or REJECT.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Inspection"
+  ],
+  "range": [
+   "string"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "upperLimit",
+  "curie": "qa:upperLimit",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#upperLimit",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "upper limit",
+  "definition": "Largest accepted value.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Specification"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "value",
+  "curie": "qa:value",
+  "iri": "https://w3id.org/industrial-ontology-lab/quality#value",
+  "kind": "attribute",
+  "module": "quality",
+  "label": "value",
+  "definition": "The measured value, in the unit of the characteristic.",
+  "examples": [],
+  "parents": [],
+  "domain": [
+   "qa:Measurement"
+  ],
+  "range": [
+   "decimal"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Faulted",
+  "curie": "mfg:Faulted",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Faulted",
+  "kind": "state",
+  "module": "core",
+  "label": "FAULTED",
+  "definition": "Halted by a fault. It must be reset, which takes it to STOPPED, before it can run again.",
+  "examples": [],
+  "parents": [
+   "mfg:OperatingState"
+  ],
+  "domain": [],
+  "range": [
+   "mfg:Stopped"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Idle",
+  "curie": "mfg:Idle",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Idle",
+  "kind": "state",
+  "module": "core",
+  "label": "IDLE",
+  "definition": "Ready and waiting: no material, no order, or blocked downstream.",
+  "examples": [],
+  "parents": [
+   "mfg:OperatingState"
+  ],
+  "domain": [],
+  "range": [
+   "mfg:Running",
+   "mfg:Stopped"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Running",
+  "curie": "mfg:Running",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Running",
+  "kind": "state",
+  "module": "core",
+  "label": "RUNNING",
+  "definition": "Producing at any speed.",
+  "examples": [],
+  "parents": [
+   "mfg:OperatingState"
+  ],
+  "domain": [],
+  "range": [
+   "mfg:Idle",
+   "mfg:Stopped",
+   "mfg:Faulted"
+  ],
+  "abstract": false,
+  "transitive": false
+ },
+ {
+  "name": "Stopped",
+  "curie": "mfg:Stopped",
+  "iri": "https://w3id.org/industrial-ontology-lab/core#Stopped",
+  "kind": "state",
+  "module": "core",
+  "label": "STOPPED",
+  "definition": "Halted on purpose by an operator or by the schedule.",
+  "examples": [],
+  "parents": [
+   "mfg:OperatingState"
+  ],
+  "domain": [],
+  "range": [
+   "mfg:Idle",
+   "mfg:Running"
+  ],
+  "abstract": false,
+  "transitive": false
+ }
+]

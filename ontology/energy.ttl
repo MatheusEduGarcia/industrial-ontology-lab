@@ -1,16 +1,53 @@
 @prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
 @prefix nrg:  <https://w3id.org/industrial-ontology-lab/energy#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 
-# Energy extension: meters, what they measure and consumption intervals.
+# Energy extension: meters, what they measure, consumption intervals and the expected baseline.
 <https://w3id.org/industrial-ontology-lab/energy> a owl:Ontology ;
-    owl:imports <https://w3id.org/industrial-ontology-lab/core> ; rdfs:label "Energy extension" .
+    owl:imports <https://w3id.org/industrial-ontology-lab/core>, <https://w3id.org/industrial-ontology-lab/production> ;
+    rdfs:label "Energy extension" ; owl:versionInfo "2.0.0" .
 
-nrg:EnergyMeter a owl:Class ; rdfs:subClassOf mfg:DataPoint ; rdfs:label "Energy meter" .
-nrg:Consumption a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Consumption interval" .
-nrg:meters      a owl:ObjectProperty ; rdfs:domain nrg:EnergyMeter ; rdfs:range mfg:Asset ;
-    rdfs:comment "Which asset the meter measures. A meter on a line measures all its equipment." .
-nrg:measuredBy  a owl:ObjectProperty ; rdfs:domain nrg:Consumption ; rdfs:range nrg:EnergyMeter .
-nrg:kWh         a owl:DatatypeProperty ; rdfs:domain nrg:Consumption ; rdfs:range xsd:decimal .
+nrg:EnergyMeter a owl:Class ; rdfs:subClassOf mfg:DataPoint ; rdfs:label "Energy meter" ;
+    rdfs:comment "A data point that accumulates the energy used by an asset." ;
+    skos:example "the electricity meter of line 1" .
+
+nrg:Consumption a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Consumption interval" ;
+    rdfs:comment "The energy a meter recorded between two instants." ;
+    skos:example "612 kWh on line 1 during the morning shift" .
+
+nrg:EnergyCarrier a owl:Class ; rdfs:label "Energy carrier" ;
+    rdfs:comment "The form in which energy reaches the equipment." ;
+    skos:example "electricity, compressed air, steam" .
+
+nrg:EnergyBaseline a owl:Class ; rdfs:label "Energy baseline" ;
+    rdfs:comment "The energy a product is expected to take per thousand good units, with the tolerance before it counts as a deviation." ;
+    skos:example "still water 500 ml: 3.5 kWh per 1,000 bottles, tolerance 15 %" .
+
+nrg:meters a owl:ObjectProperty ; rdfs:label "meters" ;
+    rdfs:comment "The asset a meter measures. A meter on a line measures all of its equipment." ;
+    rdfs:domain nrg:EnergyMeter ; rdfs:range mfg:Asset .
+nrg:measuredBy a owl:ObjectProperty ; rdfs:label "measured by" ;
+    rdfs:comment "The meter that recorded a consumption interval." ;
+    rdfs:domain nrg:Consumption ; rdfs:range nrg:EnergyMeter .
+nrg:carrier a owl:ObjectProperty ; rdfs:label "carrier" ;
+    rdfs:comment "The energy carrier a meter measures." ;
+    rdfs:domain nrg:EnergyMeter ; rdfs:range nrg:EnergyCarrier .
+nrg:baselineFor a owl:ObjectProperty ; rdfs:label "baseline for" ;
+    rdfs:comment "The product an energy baseline applies to." ;
+    rdfs:domain nrg:EnergyBaseline ; rdfs:range prd:Product .
+nrg:kWh a owl:DatatypeProperty ; rdfs:label "kWh" ;
+    rdfs:comment "Energy recorded in the interval, in kilowatt-hours." ;
+    rdfs:domain nrg:Consumption ; rdfs:range xsd:decimal .
+nrg:expectedKwhPer1000 a owl:DatatypeProperty ; rdfs:label "expected kWh per 1,000" ;
+    rdfs:comment "Expected energy per thousand good units." ;
+    rdfs:domain nrg:EnergyBaseline ; rdfs:range xsd:decimal .
+nrg:tolerancePct a owl:DatatypeProperty ; rdfs:label "tolerance percent" ;
+    rdfs:comment "How far above the expected value is still accepted, in percent." ;
+    rdfs:domain nrg:EnergyBaseline ; rdfs:range xsd:decimal .

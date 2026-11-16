@@ -9,6 +9,13 @@ cross-domain queries have something to find:
   * those lots also consumed material lot ML-2207 (caps from supplier "Cap Co")
   * line 2 makes the same product with other caps and passes inspection
 
+Version 2 adds evidence from more domains around the same shift:
+
+  * the preventive plan for that seal kit was overdue
+  * cap removal torque is low on every lot that used ML-2207
+  * part of ML-2207 is still in stock and has to be found
+  * line 3 uses far more energy per bottle than the baseline allows
+
 Run:  python -m lab.sample_data
 """
 from __future__ import annotations
@@ -118,7 +125,9 @@ def build() -> Graph:
         g.add((mlots[code], RDF.type, INV.MaterialLot))
         g.add((mlots[code], RDFS.label, Literal(code)))
         g.add((mlots[code], INV.materialOf, caps))
-        g.add((mlots[code], INV.supplier, Literal(supplier)))
+        sup = ID[f"supplier/{supplier.lower().replace(' ', '-')}"]
+        g.add((sup, RDF.type, INV.Supplier)); g.add((sup, RDFS.label, Literal(supplier)))
+        g.add((mlots[code], INV.suppliedBy, sup))
 
     # ----------------------------------------------------------- the shift on 10 Nov 2026
     runs = [  # (id, line, start_min, end_min, good, reject, material lot)
@@ -167,7 +176,8 @@ def build() -> Graph:
         if mode:
             g.add((d, MNT.causedBy, fm[mode]))
     mo = ID["maintenance-order/MO-0077"]
-    g.add((mo, RDF.type, MNT.MaintenanceOrder))
+    g.add((mo, RDF.type, MNT.CorrectiveOrder))
+    g.add((mo, RDFS.label, Literal("MO-0077")))
     g.add((mo, MFG.occurredOn, eq[("L1", "filler")]))
     g.add((mo, MFG.startTime, ts(475))); g.add((mo, MFG.endTime, ts(520)))
     g.add((mo, MNT.resolves, ID["downtime/D-004"]))
@@ -197,6 +207,118 @@ def build() -> Graph:
         g.add((c, MFG.occurredOn, ID[lines[line_key]]))
         g.add((c, MFG.startTime, ts(0))); g.add((c, MFG.endTime, ts(480)))
         g.add((c, NRG.kWh, Literal(f"{kwh}", datatype=XSD.decimal)))
+    # =========================================================== version 2
+    def thing(path, cls, label):
+        n = ID[path]
+        g.add((n, RDF.type, cls)); g.add((n, RDFS.label, Literal(label)))
+        return n
+
+    def day(y, m, d) -> Literal:
+        return Literal(datetime(y, m, d, 8, 0, tzinfo=timezone.utc).isoformat(), datatype=XSD.dateTime)
+
+    # ----------------------------------------------------------- equipment classes and capabilities
+    cap = {k: thing(f"capability/{k}", MFG.Capability, lbl) for k, lbl in (
+        ("fill-pet-500ml", "Fill 500 ml PET bottles"), ("fill-pet-1l", "Fill 1 l PET bottles"),
+        ("cap-28mm", "Apply 28 mm caps"), ("cap-38mm", "Apply 38 mm caps"), ("label-wrap", "Wrap-around labelling"))}
+    eq_class = {k: thing(f"equipment-class/{k}", MFG.EquipmentClass, k.title()) for k in ("filler", "capper", "labeler")}
+    offers = {"filler": ["fill-pet-500ml"], "capper": ["cap-28mm"], "labeler": ["label-wrap"]}
+    for (line_key, kind), node in eq.items():
+        g.add((node, MFG.ofClass, eq_class[kind]))
+        for c in offers[kind]:
+            g.add((node, MFG.hasCapability, cap[c]))
+    # line 3 is the flexible one: its filler and capper also handle the 1 l format
+    g.add((eq[("L3", "filler")], MFG.hasCapability, cap["fill-pet-1l"]))
+    g.add((eq[("L3", "capper")], MFG.hasCapability, cap["cap-38mm"]))
+
+    for c in ("fill-pet-500ml", "cap-28mm", "label-wrap"):
+        g.add((product, PRD.requiresCapability, cap[c]))
+    juice = thing("product/juice-1l", PRD.Product, "Orange juice 1 l")
+    g.add((juice, PRD.idealCycleSeconds, Literal("0.20", datatype=XSD.decimal)))
+    for c in ("fill-pet-1l", "cap-38mm", "label-wrap"):
+        g.add((juice, PRD.requiresCapability, cap[c]))
+
+    # ----------------------------------------------------------- shifts and a changeover
+    for key, site in (("SP", "acme/sao-paulo"), ("CT", "acme/curitiba")):
+        sh = thing(f"shift/{key}-20261110-M", PRD.Shift, f"Morning shift {key}")
+        g.add((sh, MFG.occurredOn, ID[site])); g.add((sh, MFG.startTime, ts(0))); g.add((sh, MFG.endTime, ts(480)))
+    co = thing("changeover/CO-001", PRD.Changeover, "CO-001")
+    g.add((co, MFG.occurredOn, ID[lines["L3"]])); g.add((co, MFG.startTime, ts(470))); g.add((co, MFG.endTime, ts(480)))
+    g.add((co, PRD.toProduct, juice))
+
+    # ----------------------------------------------------------- people
+    role_tech = thing("role/maintenance-technician", MFG.Role, "Maintenance technician")
+    role_qi = thing("role/quality-inspector", MFG.Role, "Quality inspector")
+    ana = thing("person/ana-lima", MFG.Person, "Ana Lima"); g.add((ana, MFG.hasRole, role_tech))
+    bruno = thing("person/bruno-reis", MFG.Person, "Bruno Reis"); g.add((bruno, MFG.hasRole, role_qi))
+    g.add((mo, MFG.performedBy, ana))
+
+    # ----------------------------------------------------------- preventive maintenance and spares
+    seal, motor = ID[f"{lines['L1']}/filler-01/seal-kit"], ID[f"{lines['L1']}/filler-01/main-motor"]
+    for code, comp, interval, last, due in (("PM-SEAL-L1", seal, 30, day(2026, 9, 28), day(2026, 10, 28)),
+                                            ("PM-MOTOR-L1", motor, 180, day(2026, 8, 1), day(2027, 1, 28))):
+        plan = thing(f"maintenance-plan/{code}", MNT.MaintenancePlan, code)
+        g.add((plan, MNT.covers, comp)); g.add((plan, MNT.intervalDays, Literal(interval, datatype=XSD.integer)))
+        g.add((plan, MNT.lastExecuted, last)); g.add((plan, MNT.dueDate, due))
+    pm = thing("maintenance-order/MO-0061", MNT.PreventiveOrder, "MO-0061")
+    g.add((pm, MFG.occurredOn, eq[("L1", "filler")])); g.add((pm, MFG.performedBy, ana))
+    g.add((pm, MFG.startTime, day(2026, 8, 1)))
+    g.add((pm, MFG.endTime, Literal(datetime(2026, 8, 1, 9, 30, tzinfo=timezone.utc).isoformat(), datatype=XSD.dateTime)))
+    for code, label, comp, qty in (("SK-28", "Seal kit SK-28", seal, 2), ("MTR-7", "Main motor MTR-7", motor, 0)):
+        sp = thing(f"spare-part/{code}", MNT.SparePart, label)
+        g.add((sp, MNT.fits, comp)); g.add((sp, MNT.stockQty, Literal(qty, datatype=XSD.integer)))
+    g.add((mo, MNT.usedSpare, ID["spare-part/SK-28"]))
+
+    # ----------------------------------------------------------- quality: torque against specification
+    torque = thing("characteristic/cap-torque", QA.Characteristic, "Cap removal torque")
+    g.add((torque, QA.characteristicUnit, Literal("N·m")))
+    spec = thing("specification/water-500ml-cap-torque", QA.Specification, "Cap removal torque, still water 500 ml")
+    g.add((spec, QA.ofCharacteristic, torque)); g.add((spec, QA.specFor, product))
+    g.add((spec, QA.lowerLimit, Literal("1.40", datatype=XSD.decimal)))
+    g.add((spec, QA.upperLimit, Literal("2.00", datatype=XSD.decimal)))
+    torques = {
+        "1041": [1.52, 1.48, 1.45, 1.50, 1.47], "1042": [1.44, 1.38, 1.41, 1.36, 1.46],
+        "1043": [1.33, 1.39, 1.31, 1.42, 1.35], "2041": [1.71, 1.68, 1.74, 1.70, 1.66],
+        "2042": [1.69, 1.73, 1.67, 1.72, 1.70], "3041": [1.75, 1.70, 1.72, 1.69, 1.74],
+    }
+    for num, values in torques.items():
+        ins = ID[f"inspection/Q-{num}"]
+        g.add((ins, RDFS.label, Literal(f"Q-{num}"))); g.add((ins, MFG.performedBy, bruno))
+        for i, v in enumerate(values, start=1):
+            m = ID[f"measurement/Q-{num}-T{i}"]
+            g.add((m, RDF.type, QA.Measurement)); g.add((m, QA.ofCharacteristic, torque))
+            g.add((m, QA.value, Literal(f"{v:.2f}", datatype=XSD.decimal)))
+            g.add((ins, QA.hasMeasurement, m))
+    for code, num, disposition in (("NC-001", "1042", "UNDER_INVESTIGATION"), ("NC-002", "1043", "SCRAP")):
+        nc = thing(f"non-conformance/{code}", QA.NonConformance, code)
+        g.add((nc, QA.raisedBy, ID[f"inspection/Q-{num}"])); g.add((nc, QA.concerns, ID[f"lot/L-{num}"]))
+        g.add((nc, QA.disposition, Literal(disposition)))
+
+    # ----------------------------------------------------------- energy: carriers and baseline
+    elec = thing("energy-carrier/electricity", NRG.EnergyCarrier, "Electricity")
+    thing("energy-carrier/compressed-air", NRG.EnergyCarrier, "Compressed air")
+    for line in lines.values():
+        g.add((ID[f"{line}/energy-meter"], NRG.carrier, elec))
+    base = thing("energy-baseline/water-500ml", NRG.EnergyBaseline, "Baseline, still water 500 ml")
+    g.add((base, NRG.baselineFor, product))
+    g.add((base, NRG.expectedKwhPer1000, Literal("3.5", datatype=XSD.decimal)))
+    g.add((base, NRG.tolerancePct, Literal("15", datatype=XSD.decimal)))
+
+    # ----------------------------------------------------------- inventory: where the material is now
+    for code, d in (("ML-2207", day(2026, 11, 3)), ("ML-2210", day(2026, 11, 5)), ("ML-2215", day(2026, 11, 6))):
+        g.add((mlots[code], INV.receivedOn, d))
+    places = {
+        "sp-wh-a03": ("Warehouse rack A-03", "acme/sao-paulo"),
+        "sp-line1-pou": ("Point of use, line 1", lines["L1"]),
+        "ct-wh-b01": ("Warehouse rack B-01", "acme/curitiba"),
+    }
+    for key, (label, where) in places.items():
+        loc = thing(f"storage/{key}", INV.StorageLocation, label)
+        g.add((loc, INV.locatedIn, ID[where]))
+    for i, (code, place, qty) in enumerate((("ML-2207", "sp-wh-a03", 12000), ("ML-2207", "sp-line1-pou", 1800),
+                                            ("ML-2210", "sp-wh-a03", 9000), ("ML-2215", "ct-wh-b01", 15000)), start=1):
+        st = ID[f"stock/S-{i:03d}"]
+        g.add((st, RDF.type, INV.StockItem)); g.add((st, INV.stockOf, mlots[code]))
+        g.add((st, INV.storedAt, ID[f"storage/{place}"])); g.add((st, INV.quantity, Literal(qty, datatype=XSD.integer)))
     return g
 
 

@@ -1,25 +1,70 @@
 @prefix mfg:  <https://w3id.org/industrial-ontology-lab/core#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix prd:  <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt:  <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:   <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix nrg:  <https://w3id.org/industrial-ontology-lab/energy#> .
+@prefix inv:  <https://w3id.org/industrial-ontology-lab/inventory#> .
 
-# Production extension: what is being made, in which order, on which line.
+# Production extension: what is being made, in which order, on which line, in which shift.
 <https://w3id.org/industrial-ontology-lab/production> a owl:Ontology ;
-    owl:imports <https://w3id.org/industrial-ontology-lab/core> ; rdfs:label "Production extension" .
+    owl:imports <https://w3id.org/industrial-ontology-lab/core> ;
+    rdfs:label "Production extension" ; owl:versionInfo "2.0.0" .
 
-prd:Product   a owl:Class ; rdfs:label "Product" ; rdfs:comment "A sellable item (SKU)." .
-prd:WorkOrder a owl:Class ; rdfs:label "Work order" ; rdfs:comment "A request to produce a quantity of a product." .
-prd:Lot       a owl:Class ; rdfs:label "Lot" ; rdfs:comment "Traceable quantity produced in one run." .
+prd:Product a owl:Class ; rdfs:label "Product" ;
+    rdfs:comment "A sellable item, identified by its SKU." ;
+    skos:example "still water 500 ml, orange juice 1 l" .
+
+prd:WorkOrder a owl:Class ; rdfs:label "Work order" ;
+    rdfs:comment "A request to produce a quantity of one product." ;
+    skos:example "WO-1042: 46,000 bottles of still water 500 ml" .
+
+prd:Lot a owl:Class ; rdfs:label "Lot" ;
+    rdfs:comment "The traceable quantity of product made in one run. Quality decisions and recalls are taken per lot." ;
+    skos:example "L-1042" .
+
 prd:ProductionRun a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Production run" ;
-    rdfs:comment "Execution of a work order on equipment between a start and an end time." .
+    rdfs:comment "The execution of a work order on equipment between a start and an end time." ;
+    skos:example "R-1042 on filler-01 of line 1, 08:00 to 10:00" .
 
-prd:forProduct   a owl:ObjectProperty ; rdfs:domain prd:WorkOrder ; rdfs:range prd:Product .
-prd:executes     a owl:ObjectProperty ; rdfs:domain prd:ProductionRun ; rdfs:range prd:WorkOrder .
-prd:produced     a owl:ObjectProperty ; rdfs:domain prd:ProductionRun ; rdfs:range prd:Lot .
-prd:lotOf        a owl:ObjectProperty ; rdfs:domain prd:Lot ; rdfs:range prd:Product .
-prd:targetQty    a owl:DatatypeProperty ; rdfs:domain prd:WorkOrder ; rdfs:range xsd:integer .
-prd:goodQty      a owl:DatatypeProperty ; rdfs:domain prd:ProductionRun ; rdfs:range xsd:integer .
-prd:rejectQty    a owl:DatatypeProperty ; rdfs:domain prd:ProductionRun ; rdfs:range xsd:integer .
-prd:idealCycleSeconds a owl:DatatypeProperty ; rdfs:domain prd:Product ; rdfs:range xsd:decimal ;
-    rdfs:comment "Ideal cycle time, the basis of OEE performance." .
+prd:Shift a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Shift" ;
+    rdfs:comment "A scheduled working period of a site. KPIs are usually reported per shift." ;
+    skos:example "morning shift, 06:00 to 14:00" .
+
+prd:Changeover a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "Changeover" ;
+    rdfs:comment "The planned time spent switching a line from one product or format to another." ;
+    skos:example "line 3 switching from 500 ml to 1 l bottles" .
+
+prd:forProduct a owl:ObjectProperty ; rdfs:label "for product" ;
+    rdfs:comment "The product a work order asks for." ;
+    rdfs:domain prd:WorkOrder ; rdfs:range prd:Product .
+prd:executes a owl:ObjectProperty ; rdfs:label "executes" ;
+    rdfs:comment "The work order a run is fulfilling." ;
+    rdfs:domain prd:ProductionRun ; rdfs:range prd:WorkOrder .
+prd:produced a owl:ObjectProperty ; rdfs:label "produced" ;
+    rdfs:comment "The lot that came out of a run." ;
+    rdfs:domain prd:ProductionRun ; rdfs:range prd:Lot .
+prd:lotOf a owl:ObjectProperty ; rdfs:label "lot of" ;
+    rdfs:comment "The product a lot contains." ;
+    rdfs:domain prd:Lot ; rdfs:range prd:Product .
+prd:requiresCapability a owl:ObjectProperty ; rdfs:label "requires capability" ;
+    rdfs:comment "What equipment must be able to do for this product to be made. A line can run the product when its equipment covers every required capability." ;
+    rdfs:domain prd:Product ; rdfs:range mfg:Capability .
+prd:toProduct a owl:ObjectProperty ; rdfs:label "to product" ;
+    rdfs:comment "The product a changeover prepares the line for." ;
+    rdfs:domain prd:Changeover ; rdfs:range prd:Product .
+prd:targetQty a owl:DatatypeProperty ; rdfs:label "target quantity" ;
+    rdfs:comment "Units the work order asks for." ;
+    rdfs:domain prd:WorkOrder ; rdfs:range xsd:integer .
+prd:goodQty a owl:DatatypeProperty ; rdfs:label "good quantity" ;
+    rdfs:comment "Units that left the run accepted." ;
+    rdfs:domain prd:ProductionRun ; rdfs:range xsd:integer .
+prd:rejectQty a owl:DatatypeProperty ; rdfs:label "reject quantity" ;
+    rdfs:comment "Units rejected during the run." ;
+    rdfs:domain prd:ProductionRun ; rdfs:range xsd:integer .
+prd:idealCycleSeconds a owl:DatatypeProperty ; rdfs:label "ideal cycle seconds" ;
+    rdfs:comment "Ideal time to make one unit, the basis of OEE performance." ;
+    rdfs:domain prd:Product ; rdfs:range xsd:decimal .

@@ -1,0 +1,31 @@
+@prefix mfg: <https://w3id.org/industrial-ontology-lab/core#> .
+@prefix prd: <https://w3id.org/industrial-ontology-lab/production#> .
+@prefix mnt: <https://w3id.org/industrial-ontology-lab/maintenance#> .
+@prefix qa:  <https://w3id.org/industrial-ontology-lab/quality#> .
+@prefix inv: <https://w3id.org/industrial-ontology-lab/inventory#> .
+@prefix id:  <https://w3id.org/industrial-ontology-lab/id/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Five more records a careless integration could send, one per version 2 contract.
+
+# 1. A specification typed with the limits swapped
+<https://w3id.org/industrial-ontology-lab/id/specification/bad-torque> a qa:Specification ;
+    qa:specFor <https://w3id.org/industrial-ontology-lab/id/product/water-500ml> ; qa:ofCharacteristic <https://w3id.org/industrial-ontology-lab/id/characteristic/cap-torque> ;
+    qa:lowerLimit "2.00"^^xsd:decimal ; qa:upperLimit "1.40"^^xsd:decimal .
+
+# 2. A measurement that came as text and does not say what was measured
+<https://w3id.org/industrial-ontology-lab/id/measurement/M-999> a qa:Measurement ; qa:value "about 1.5" .
+
+# 3. A non-conformance closed with free text
+<https://w3id.org/industrial-ontology-lab/id/non-conformance/NC-999> a qa:NonConformance ;
+    qa:concerns <https://w3id.org/industrial-ontology-lab/id/lot/L-1041> ; qa:disposition "ok, released by phone" .
+
+# 4. A preventive plan with no due date and a zero interval
+<https://w3id.org/industrial-ontology-lab/id/maintenance-plan/PM-999> a mnt:MaintenancePlan ;
+    mnt:covers <https://w3id.org/industrial-ontology-lab/id/acme/sao-paulo/packaging/line-1/filler-01/valve-block> ;
+    mnt:intervalDays 0 .
+
+# 5. Material received with no supplier, and negative stock after a bad count
+<https://w3id.org/industrial-ontology-lab/id/material-lot/ML-9999> a inv:MaterialLot ; inv:materialOf <https://w3id.org/industrial-ontology-lab/id/material/cap-28mm> .
+<https://w3id.org/industrial-ontology-lab/id/stock/S-999> a inv:StockItem ; inv:stockOf <https://w3id.org/industrial-ontology-lab/id/material-lot/ML-9999> ;
+    inv:storedAt <https://w3id.org/industrial-ontology-lab/id/storage/sp-wh-a03> ; inv:quantity -40 .

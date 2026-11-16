@@ -139,9 +139,53 @@ def energy(g: Graph, path: Path | None = None):
     return bars(rows, lambda r: r["line"], "kwh_per_1000", "Energy per 1,000 good parts", "kWh", "#e67e22", path)
 
 
+def torque(g: Graph, path: Path | None = None):
+    """Every torque sample per lot against the specification limits, coloured by cap lot."""
+    rows = query(g, """SELECT ?lot ?ml ?v ?lo ?hi WHERE {
+        ?ins qa:inspects ?l ; qa:hasMeasurement ?m . ?m qa:value ?v ; qa:ofCharacteristic ?ch .
+        ?l rdfs:label ?lot ; prd:lotOf ?p . ?s qa:specFor ?p ; qa:ofCharacteristic ?ch ; qa:lowerLimit ?lo ; qa:upperLimit ?hi .
+        ?run prd:produced ?l ; inv:consumed/rdfs:label ?ml } ORDER BY ?lot""")
+    lots = sorted({r["lot"] for r in rows})
+    colors = dict(zip(sorted({r["ml"] for r in rows}), ["#c0392b", "#2980b9", "#27ae60"]))
+    fig, ax = plt.subplots(figsize=(8, 3.6))
+    seen = set()
+    for r in rows:
+        ax.scatter(lots.index(r["lot"]), float(r["v"]), color=colors[r["ml"]], s=36, zorder=3,
+                   label=f"cap lot {r['ml']}" if r["ml"] not in seen else None)
+        seen.add(r["ml"])
+    lo, hi = float(rows[0]["lo"]), float(rows[0]["hi"])
+    ax.axhline(lo, color="#c0392b", ls="--", lw=1); ax.text(-0.4, lo - 0.035, "below the lower limit (1.40)", fontsize=8, color="#c0392b")
+    ax.axhspan(ax.get_ylim()[0], lo, color="#c0392b", alpha=0.07)
+    ax.set_xticks(range(len(lots)), lots); ax.set_ylabel("cap removal torque (N·m)")
+    ax.set_title("Cap torque per lot against the specification"); ax.legend(fontsize=8, frameon=False, loc="lower right")
+    ax.spines[["top", "right"]].set_visible(False); fig.tight_layout()
+    if path:
+        fig.savefig(path, dpi=130)
+    return fig
+
+
+def baseline(g: Graph, path: Path | None = None):
+    from .queries import ENERGY_VS_BASELINE
+    rows = sorted(query(g, ENERGY_VS_BASELINE), key=lambda r: r["line"])
+    exp, tol = float(rows[0]["expected"]), float(rows[0]["tolerance_pct"])
+    fig, ax = plt.subplots(figsize=(7, 3))
+    vals = [float(r["actual"]) for r in rows]
+    ax.bar([r["line"] for r in rows], vals, color=["#c0392b" if v > exp * (1 + tol / 100) else "#7f8c8d" for v in vals])
+    ax.axhline(exp, color="#2c3e50", lw=1); ax.axhspan(exp, exp * (1 + tol / 100), color="#e67e22", alpha=0.15)
+    ax.text(0.5, exp * (1 + tol / 100) + 0.12, f"baseline {exp:g} + {tol:g} % tolerance", fontsize=8, ha="center")
+    ax.set_xlim(-0.6, len(rows) - 0.4)
+    for i, v in enumerate(vals):
+        ax.text(i, v + 0.05, f"{v:.2f}", ha="center", fontsize=9)
+    ax.set_ylabel("kWh per 1,000 good parts"); ax.set_title("Energy against the product baseline")
+    ax.spines[["top", "right"]].set_visible(False); fig.tight_layout()
+    if path:
+        fig.savefig(path, dpi=130)
+    return fig
+
+
 if __name__ == "__main__":
     g = load_plant()
     print(render(hierarchy_dot(g), "hierarchy"))
     print(render(schema_dot(load_ontology()), "schema"))
-    for name, fn in (("timeline", timeline), ("pareto", pareto), ("energy", energy)):
+    for name, fn in (("timeline", timeline), ("pareto", pareto), ("energy", energy), ("torque", torque), ("baseline", baseline)):
         fn(g, IMG / f"{name}.png"); print(IMG / f"{name}.png")

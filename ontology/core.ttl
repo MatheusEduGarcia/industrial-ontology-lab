@@ -2,6 +2,7 @@
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 # ---------------------------------------------------------------------------
@@ -9,65 +10,202 @@
 #
 # Small on purpose: the concepts every domain extension needs.
 #   * the ISA-95 equipment hierarchy (enterprise > site > area > line > cell)
-#   * data points (tags) that belong to equipment and live at a UNS topic
-#   * events that happen to equipment over time
+#   * what kind of equipment something is, and what it is able to do
+#   * the operating states of equipment and the transitions that are allowed
+#   * data points (tags) that belong to assets and live at a UNS topic
+#   * events that happen to assets over time, and who performed them
 # Domain files (production, maintenance, quality, energy, inventory) import
 # this one and only ADD classes and relations, they never redefine it.
+#
+# House rules, checked by `python -m lab.lint`:
+#   * every term has a label and a definition (rdfs:comment)
+#   * every class has at least one skos:example, so a person or an AI agent
+#     can tell what belongs in it without reading the data
+#   * every property declares its domain and range
 # ---------------------------------------------------------------------------
 
 <https://w3id.org/industrial-ontology-lab/core> a owl:Ontology ;
     rdfs:label "Industrial ontology lab: core" ;
-    owl:versionInfo "0.1.0" .
+    owl:versionInfo "2.0.0" .
+
+mfg:isAbstract a owl:AnnotationProperty ;
+    rdfs:label "is abstract" ;
+    rdfs:comment "Marks a class that only groups its subclasses and is never instantiated directly." .
+
+mfg:populatedBy a owl:AnnotationProperty ;
+    rdfs:label "populated by" ;
+    rdfs:comment "Names the runtime component that creates instances of a class, when the sample data has none." .
 
 # ---------------------------------------------------------------- hierarchy
 mfg:Asset a owl:Class ;
     rdfs:label "Asset" ;
-    rdfs:comment "Anything in the equipment hierarchy that has a stable identity." .
+    rdfs:comment "Anything in the equipment hierarchy that has a stable identity." ;
+    skos:example "a site, a packaging line, a filler, a seal kit" ;
+    mfg:isAbstract true .
 
-mfg:Enterprise  a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Enterprise" .
-mfg:Site        a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Site" .
-mfg:Area        a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Area" .
-mfg:Line        a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Production line" .
-mfg:Equipment   a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Equipment" ;
-    rdfs:comment "ISA-95 work cell / unit: a machine that runs, stops and produces." .
+mfg:Enterprise a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Enterprise" ;
+    rdfs:comment "The company as a whole, the root of the hierarchy." ;
+    skos:example "ACME Beverages" .
+
+mfg:Site a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Site" ;
+    rdfs:comment "A plant at one geographic location." ;
+    skos:example "São Paulo plant, Curitiba plant" .
+
+mfg:Area a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Area" ;
+    rdfs:comment "A part of a site organized around one kind of work." ;
+    skos:example "packaging, utilities, warehouse" .
+
+mfg:Line a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Production line" ;
+    rdfs:comment "A set of equipment arranged to make product in sequence. Orders are scheduled on lines." ;
+    skos:example "Line 1: filler, capper and labeler" .
+
+mfg:Equipment a owl:Class ; rdfs:subClassOf mfg:Asset ; rdfs:label "Equipment" ;
+    rdfs:comment "ISA-95 work cell or unit: one machine that runs, stops and produces." ;
+    skos:example "filler-01 of line 1" .
 
 mfg:partOf a owl:ObjectProperty, owl:TransitiveProperty ;
     rdfs:label "part of" ;
     rdfs:comment "Containment in the equipment hierarchy. Transitive: a filler partOf line 1 partOf area partOf site." ;
     rdfs:domain mfg:Asset ; rdfs:range mfg:Asset .
 
-mfg:hasPart a owl:ObjectProperty ; owl:inverseOf mfg:partOf ; rdfs:label "has part" .
+mfg:hasPart a owl:ObjectProperty ; owl:inverseOf mfg:partOf ; rdfs:label "has part" ;
+    rdfs:comment "Inverse of partOf: the assets directly contained in this one." ;
+    rdfs:domain mfg:Asset ; rdfs:range mfg:Asset .
 
 mfg:assetId a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "asset id" ;
     rdfs:comment "Stable business identifier, the same in UNS, MES and CMMS." ;
     rdfs:domain mfg:Asset ; rdfs:range xsd:string .
 
+# ---------------------------------------------------------------- kind and capability
+mfg:EquipmentClass a owl:Class ;
+    rdfs:label "Equipment class" ;
+    rdfs:comment "A catalogue entry for a kind of equipment. It describes the type, while Equipment is one installed machine of that type." ;
+    skos:example "filler, capper, labeler" .
+
+mfg:ofClass a owl:ObjectProperty ;
+    rdfs:label "of class" ;
+    rdfs:comment "The kind of equipment this machine is." ;
+    rdfs:domain mfg:Equipment ; rdfs:range mfg:EquipmentClass .
+
+mfg:Capability a owl:Class ;
+    rdfs:label "Capability" ;
+    rdfs:comment "Something an equipment is able to do, stated independently of any product or order. Matching what a product requires with what a line offers answers where the product can run." ;
+    skos:example "fill 500 ml PET bottles, apply 28 mm caps, wrap-around labelling" .
+
+mfg:hasCapability a owl:ObjectProperty ;
+    rdfs:label "has capability" ;
+    rdfs:comment "What this equipment is able to do in its current configuration." ;
+    rdfs:domain mfg:Equipment ; rdfs:range mfg:Capability .
+
+# ---------------------------------------------------------------- operating states
+mfg:OperatingState a owl:Class ;
+    rdfs:label "Operating state" ;
+    rdfs:comment "One of the harmonized states every equipment reports, whatever its vendor calls them. The label is the exact text published in the UNS." ;
+    skos:example "RUNNING, IDLE, STOPPED, FAULTED" .
+
+mfg:canTransitionTo a owl:ObjectProperty ;
+    rdfs:label "can transition to" ;
+    rdfs:comment "A state change that is physically and procedurally possible. A reported change that is not listed here signals a data or integration problem." ;
+    rdfs:domain mfg:OperatingState ; rdfs:range mfg:OperatingState .
+
+mfg:isProductive a owl:DatatypeProperty ;
+    rdfs:label "is productive" ;
+    rdfs:comment "True when time in this state counts as running time for availability." ;
+    rdfs:domain mfg:OperatingState ; rdfs:range xsd:boolean .
+
+mfg:Running a mfg:OperatingState ; rdfs:label "RUNNING" ; mfg:isProductive true ;
+    rdfs:comment "Producing at any speed." ;
+    mfg:canTransitionTo mfg:Idle, mfg:Stopped, mfg:Faulted .
+mfg:Idle a mfg:OperatingState ; rdfs:label "IDLE" ; mfg:isProductive false ;
+    rdfs:comment "Ready and waiting: no material, no order, or blocked downstream." ;
+    mfg:canTransitionTo mfg:Running, mfg:Stopped .
+mfg:Stopped a mfg:OperatingState ; rdfs:label "STOPPED" ; mfg:isProductive false ;
+    rdfs:comment "Halted on purpose by an operator or by the schedule." ;
+    mfg:canTransitionTo mfg:Idle, mfg:Running .
+mfg:Faulted a mfg:OperatingState ; rdfs:label "FAULTED" ; mfg:isProductive false ;
+    rdfs:comment "Halted by a fault. It must be reset, which takes it to STOPPED, before it can run again." ;
+    mfg:canTransitionTo mfg:Stopped .
+
 # ---------------------------------------------------------------- data points
 mfg:DataPoint a owl:Class ;
     rdfs:label "Data point" ;
-    rdfs:comment "A measured or derived value that belongs to an asset (a PLC tag, a computed KPI)." .
+    rdfs:comment "A measured or derived value that belongs to an asset: a PLC tag, a sensor reading, a computed KPI." ;
+    skos:example "the speed of filler-01, the state of capper-01" .
 
 mfg:hasDataPoint a owl:ObjectProperty ;
-    rdfs:domain mfg:Asset ; rdfs:range mfg:DataPoint ; rdfs:label "has data point" .
+    rdfs:label "has data point" ;
+    rdfs:comment "The values available for this asset." ;
+    rdfs:domain mfg:Asset ; rdfs:range mfg:DataPoint .
 
 mfg:unsTopic a owl:DatatypeProperty ;
     rdfs:label "UNS topic" ;
     rdfs:comment "Where the live value of this data point is published in the Unified Namespace." ;
     rdfs:domain mfg:DataPoint ; rdfs:range xsd:string .
 
-mfg:unit a owl:DatatypeProperty ; rdfs:domain mfg:DataPoint ; rdfs:range xsd:string ; rdfs:label "unit" .
-mfg:lastValue a owl:DatatypeProperty ; rdfs:domain mfg:DataPoint ; rdfs:label "last value" .
-mfg:lastUpdate a owl:DatatypeProperty ; rdfs:domain mfg:DataPoint ; rdfs:range xsd:dateTime ; rdfs:label "last update" .
+mfg:unit a owl:DatatypeProperty ; rdfs:label "unit" ;
+    rdfs:comment "Engineering unit of the value." ;
+    rdfs:domain mfg:DataPoint ; rdfs:range xsd:string .
+
+mfg:lastValue a owl:DatatypeProperty ; rdfs:label "last value" ;
+    rdfs:comment "Most recent value received from the UNS. Written by the bridge, never by hand." ;
+    rdfs:domain mfg:DataPoint ; rdfs:range rdfs:Literal .
+
+mfg:lastUpdate a owl:DatatypeProperty ; rdfs:label "last update" ;
+    rdfs:comment "When lastValue was received." ;
+    rdfs:domain mfg:DataPoint ; rdfs:range xsd:dateTime .
 
 # ---------------------------------------------------------------- events
 mfg:Event a owl:Class ;
     rdfs:label "Event" ;
-    rdfs:comment "Something that happened to an asset at a point in time (state change, order start, inspection)." .
+    rdfs:comment "Something that happened to an asset over a period of time. Every domain event inherits where and when from here, which is what lets them be crossed." ;
+    skos:example "a production run, a stop, an inspection, a maintenance order" ;
+    mfg:isAbstract true .
 
-mfg:occurredOn a owl:ObjectProperty ; rdfs:domain mfg:Event ; rdfs:range mfg:Asset ; rdfs:label "occurred on" .
-mfg:startTime a owl:DatatypeProperty ; rdfs:domain mfg:Event ; rdfs:range xsd:dateTime ; rdfs:label "start time" .
-mfg:endTime   a owl:DatatypeProperty ; rdfs:domain mfg:Event ; rdfs:range xsd:dateTime ; rdfs:label "end time" .
+mfg:occurredOn a owl:ObjectProperty ; rdfs:label "occurred on" ;
+    rdfs:comment "The asset the event happened to." ;
+    rdfs:domain mfg:Event ; rdfs:range mfg:Asset .
 
-mfg:StateChange a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "State change" .
-mfg:toState a owl:DatatypeProperty ; rdfs:domain mfg:StateChange ; rdfs:range xsd:string ; rdfs:label "to state" .
+mfg:startTime a owl:DatatypeProperty ; rdfs:label "start time" ;
+    rdfs:comment "When the event began." ;
+    rdfs:domain mfg:Event ; rdfs:range xsd:dateTime .
+
+mfg:endTime a owl:DatatypeProperty ; rdfs:label "end time" ;
+    rdfs:comment "When the event ended. Absent while the event is still open." ;
+    rdfs:domain mfg:Event ; rdfs:range xsd:dateTime .
+
+mfg:StateChange a owl:Class ; rdfs:subClassOf mfg:Event ; rdfs:label "State change" ;
+    rdfs:comment "The moment an equipment moved from one operating state to another." ;
+    skos:example "filler-01 went from RUNNING to FAULTED at 09:00" ;
+    mfg:populatedBy "lab.uns_bridge" .
+
+mfg:toState a owl:DatatypeProperty ; rdfs:label "to state" ;
+    rdfs:comment "The state text exactly as received, kept even when it matches no known operating state." ;
+    rdfs:domain mfg:StateChange ; rdfs:range xsd:string .
+
+mfg:fromOperatingState a owl:ObjectProperty ; rdfs:label "from operating state" ;
+    rdfs:comment "The harmonized state the equipment was in before the change." ;
+    rdfs:domain mfg:StateChange ; rdfs:range mfg:OperatingState .
+
+mfg:toOperatingState a owl:ObjectProperty ; rdfs:label "to operating state" ;
+    rdfs:comment "The harmonized state the equipment entered." ;
+    rdfs:domain mfg:StateChange ; rdfs:range mfg:OperatingState .
+
+# ---------------------------------------------------------------- people
+mfg:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "Someone who performs or is accountable for work in the plant." ;
+    skos:example "a maintenance technician, a quality inspector" .
+
+mfg:Role a owl:Class ;
+    rdfs:label "Role" ;
+    rdfs:comment "A function a person performs. Kept apart from the person because people change roles and one role is held by many people." ;
+    skos:example "maintenance technician, quality inspector, line operator" .
+
+mfg:hasRole a owl:ObjectProperty ; rdfs:label "has role" ;
+    rdfs:comment "The function this person performs." ;
+    rdfs:domain mfg:Person ; rdfs:range mfg:Role .
+
+mfg:performedBy a owl:ObjectProperty ; rdfs:label "performed by" ;
+    rdfs:comment "Who carried out the event." ;
+    rdfs:domain mfg:Event ; rdfs:range mfg:Person .

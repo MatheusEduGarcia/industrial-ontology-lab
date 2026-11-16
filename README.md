@@ -4,12 +4,16 @@
 
 An ontology made of a **core** plus **domain extensions**, a knowledge graph of a fictional two-site company, **SHACL data contracts**, cross-domain **SPARQL**, a live **UNS (MQTT) to graph bridge**, and an export to **Neo4j**. Everything is original work, runs on a laptop in minutes, and is covered by tests in CI.
 
+**Version 2** makes the model readable by people and by AI agents: 120 terms, every one with a definition, every class with an example, 15 competency questions that run as tests, and the ontology itself exported into the graph next to the data.
+
 [![ci](https://github.com/MatheusEduGarcia/industrial-ontology-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/MatheusEduGarcia/industrial-ontology-lab/actions/workflows/ci.yml)
 ![python](https://img.shields.io/badge/python-3.12-blue)
 ![rdflib](https://img.shields.io/badge/rdflib-7.1-informational)
+![ontology](https://img.shields.io/badge/ontology-v2.0.0%20%C2%B7%20120%20terms-8e44ad)
+![competency questions](https://img.shields.io/badge/competency%20questions-15%20of%2015-27ae60)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
-> **How to read this page.** Each lesson has the idea, the code that does it, what came out, and what that means. The five notebooks in [`notebooks/`](notebooks/) follow the same path in Portuguese, with every cell commented and every output kept.
+> **How to read this page.** Each lesson has the idea, the code that does it, what came out, and what that means. The seven notebooks in [`notebooks/`](notebooks/) follow the same path in Portuguese, with every cell commented and every output kept.
 
 ---
 
@@ -21,8 +25,10 @@ An ontology made of a **core** plus **domain extensions**, a knowledge graph of 
 3. [Data contracts with SHACL](#3-data-contracts-with-shacl)
 4. [Business questions that cross domains](#4-business-questions-that-cross-domains)
 5. [The live UNS bridge and the Neo4j export](#5-the-live-uns-bridge-and-the-neo4j-export)
-6. [How the notebooks teach](#how-the-notebooks-teach)
-7. [Run it yourself](#6-run-it-yourself)
+6. [Version 2: a wider model, driven by questions](#6-version-2-a-wider-model-driven-by-questions)
+7. [An ontology that people and AI agents can read](#7-an-ontology-that-people-and-ai-agents-can-read)
+8. [How the notebooks teach](#how-the-notebooks-teach)
+9. [Run it yourself](#run-it-yourself)
 
 ---
 
@@ -246,6 +252,118 @@ A common split: model and validate in RDF, serve applications from Neo4j.
 
 ---
 
+## 6. Version 2: a wider model, driven by questions
+
+**Rule for growing the model: no class without a business question that needs it.** Version 2 adds capabilities, operating states with allowed transitions, preventive plans, spare parts, measurements against specification, non-conformances, an energy baseline, suppliers and stock. Each addition exists because of one of the questions below.
+
+| Module | Classes | Relations | Attributes | New in version 2 |
+|---|---:|---:|---:|---|
+| core | 14 | 11 | 9 | EquipmentClass, Capability, OperatingState and its transitions, Person, Role |
+| production | 6 | 6 | 4 | Shift, Changeover, `requiresCapability` |
+| maintenance | 8 | 7 | 5 | Corrective and preventive orders, MaintenancePlan, SparePart |
+| quality | 7 | 8 | 7 | Characteristic, Specification, Measurement, NonConformance |
+| energy | 4 | 4 | 3 | EnergyCarrier, EnergyBaseline |
+| inventory | 5 | 6 | 2 | Supplier, StorageLocation, StockItem |
+
+The full list, with every definition and example, is generated in [`docs/ontology_reference.md`](docs/ontology_reference.md).
+
+### The same investigation, with more evidence
+
+Section 4.4 ended with two hypotheses for the leaks that the data could not separate. The wider model brings three new facts to the same shift:
+
+| New fact | Query | Points to |
+|---|---|---|
+| The preventive plan for the filler seal kit was **13 days overdue** | `overdue_plans()` | the filler (maintenance) |
+| Cap torque is low on **every** lot that used cap lot ML-2207, including L-1041, which had no stop at all | `TORQUE_VS_SPEC` | the cap (material) |
+| 13,800 caps of ML-2207 are still in stock, 1,800 of them at the line | `STOCK_TO_QUARANTINE` | what to contain today |
+
+![Cap torque per lot against the specification](docs/img/torque.png)
+
+L-1041 is the informative one: it ran with no seal-wear stop and still sits at the bottom of the range. That weakens "it is only the seal". It is still not a verdict, because torque also depends on the line 1 capper and ML-2207 only ran there. More domains in the graph mean more evidence and a cheaper experiment (one pallet of ML-2207 on line 2), not the end of experimenting.
+
+### A model that can distrust the data
+
+The core now defines four harmonized states and the transitions that are possible. A machine in `FAULTED` has to be reset before it runs again, so a reported `FAULTED → RUNNING` is a data problem: a lost message, two internal states mapped to the same text, or polling too slow to see the reset. The bridge records the state left and the state entered, and one query lists what the model says cannot happen.
+
+```sparql
+SELECT ?equipment ?from ?to WHERE {
+  ?e a mfg:StateChange ; mfg:fromOperatingState ?a ; mfg:toOperatingState ?b ; mfg:occurredOn/rdfs:label ?equipment .
+  ?a rdfs:label ?from . ?b rdfs:label ?to .
+  FILTER NOT EXISTS { ?a mfg:canTransitionTo ?b }
+}
+```
+
+And energy now has a criterion instead of an impression: line 3 is 64 % above the product baseline, with a tolerance of 15 %.
+
+![Energy against the product baseline](docs/img/baseline.png)
+
+---
+
+## 7. An ontology that people and AI agents can read
+
+An AI agent about to query a plant graph has the same problem as an engineer on the first day: it does not know which classes exist, what each one means, or how they connect. Four pieces make the model answer that by itself.
+
+| Piece | What it does | Where |
+|---|---|---|
+| **Definition and example on every term** | says what belongs in a class without looking at the data | `ontology/*.ttl` |
+| **Catalog** | serves the model as text: one term in full, or everything in about 1,700 tokens | [`lab/catalog.py`](lab/catalog.py) |
+| **Lint** | fails CI on a term with no definition, a property with no range, or a term used in the data that nobody declared | [`lab/lint.py`](lab/lint.py) |
+| **Competency questions** | the business questions the model must answer, each with its query and a check | [`lab/competency.py`](lab/competency.py) |
+
+```text
+>>> print(catalog.describe("Downtime"))
+mnt:Downtime  (class, module maintenance)
+  An interval in which equipment did not run when it was scheduled to.
+  Examples: filler-01 stopped 15 minutes for seal wear
+  Is a: mfg:Event
+  Has:
+    mfg:endTime -> dateTime   When the event ended. Absent while the event is still open.
+    mfg:occurredOn -> mfg:Asset   The asset the event happened to.
+    mfg:performedBy -> mfg:Person   Who carried out the event.
+    mfg:startTime -> dateTime   When the event began.
+    mnt:causedBy -> mnt:FailureMode   The failure mode behind a stop.
+    mnt:planned -> boolean   True for stops that were scheduled, such as lunch. ...
+  Is pointed at by:
+    mnt:resolves <- mnt:MaintenanceOrder   The stop a maintenance order was raised to fix.
+```
+
+Four of those six lines come from `mfg:Event`, not from the maintenance file. Inheritance is resolved for the reader.
+
+### Competency questions
+
+Written before the model, used to decide what goes in, and run as tests afterwards. If a change breaks an answer, CI says which business question was lost.
+
+| # | Question | Modules it crosses | Answer from the sample plant |
+|---|---|---|---|
+| CQ01 | What exists inside the São Paulo plant, at any depth? | core | 12 assets: 1 area, 2 lines, 6 machines and 3 components |
+| CQ02 | Which failure mode cost the most unplanned downtime, and on which line? | maintenance, core | Seal wear on Line 1: 3 stops, 54 min |
+| CQ03 | Which component does that failure mode hit, and was it replaced? | maintenance | Seal Kit, replaced by MO-0077 |
+| CQ04 | Which lots were made while those stops were happening, and what did inspection decide? | maintenance, production, quality | L-1042 HOLD (1 stops); L-1043 REJECT (3 stops) |
+| CQ05 | Which product lots consumed cap lot ML-2207, and how did they fare? | inventory, quality | L-1041 PASS, L-1042 HOLD, L-1043 REJECT |
+| CQ06 | Which line uses the most energy per thousand good parts? | energy, production | Line 3: 5.76 kWh per 1,000 |
+| CQ07 | Where do I subscribe to read the live state of every filler? | core | 3 topics, for example acme/curitiba/packaging/line-3/filler-01/state |
+| CQ08 | On which lines can orange juice 1 l run? | core, production | only Line 3 |
+| CQ09 | Was any preventive plan overdue on the day of the shift? | maintenance | PM-SEAL-L1 for the Seal Kit of Filler L1, due 2026-10-28; that component caused 3 stops |
+| CQ10 | Which lots have cap torque below specification, and which cap lot did they use? | quality, inventory | L-1042: 2 of 5 samples, cap lot ML-2207; L-1043: 4 of 5 samples, cap lot ML-2207 |
+| CQ11 | Which line is outside the energy baseline of the product it made? | energy, production | Line 3: 64 % above the baseline (tolerance 15 %) |
+| CQ12 | Where is the remaining stock of material that went into non-conforming lots? | quality, inventory | 12000 of ML-2207 at Warehouse rack A-03; 1800 of ML-2207 at Point of use, line 1 |
+| CQ13 | Who performed the maintenance orders and the inspections? | core, maintenance, quality | Ana Lima (Maintenance technician): 1 x Corrective order; Ana Lima (Maintenance technician): 1 x Preventive order; Bruno Reis (Quality inspector): 6 x Inspection |
+| CQ14 | Which failure mode seen on the shift hits a component with no spare in stock? | maintenance | Motor overload: Main motor MTR-7 has 0 in stock |
+| CQ15 | Did any equipment report a state change the model says is impossible? | core | Filler L1: FAULTED to RUNNING without a reset (1 of 2 changes injected for the test) |
+
+### The ontology inside the graph
+
+`python -m lab.to_cypher ontology` exports the model itself to Neo4j: each class is a node with its definition and examples, each relation is a node linked to where it starts and ends, and each instance points at its class. An application can ask the database what a label means before it queries the instances.
+
+```cypher
+MATCH (c:OntologyClass {name: 'Downtime'})-[:SUBCLASS_OF*0..]->(k)<-[:DOMAIN]-(p:OntologyProperty)
+RETURN c.definition, p.name, p.definition;
+```
+
+No language model is called anywhere in this repository. This is the groundwork: the catalog functions are exactly the tools an agent would be given.
+
+---
+
 ## How the notebooks teach
 
 The notebooks are in Portuguese and committed **already executed**, so they read on GitHub without installing anything. Every one has the same structure:
@@ -267,33 +385,39 @@ The notebooks are in Portuguese and committed **already executed**, so they read
 | 03 | [Contratos de dados com SHACL](notebooks/03_contratos_de_dados_shacl.ipynb) | read a shape, interpret a validation report, gate records at the door |
 | 04 | [Consultas de negócio](notebooks/04_consultas_de_negocio.ipynb) | cross domains by time and asset, and recognize confounded factors |
 | 05 | [UNS ao vivo e Neo4j](notebooks/05_uns_ao_vivo_e_neo4j.ipynb) | join live MQTT values to the model and export RDF to a property graph |
+| 06 | [O modelo ampliado](notebooks/06_perguntas_do_modelo_ampliado.ipynb) | justify each new class by a question, write "for all" in SPARQL, combine evidence across domains |
+| 07 | [Ontologia legível por agentes](notebooks/07_ontologia_legivel_por_agentes.ipynb) | use the catalog, the lint and competency questions to keep a model readable by people and AI agents |
 
 The didactic layer lives in [`tools/didatico_conteudo.py`](tools/didatico_conteudo.py) and is applied with `python tools/didatico.py tools/didatico_conteudo.py .`, so it survives re-running a notebook.
 
 ---
 
-## 6. Run it yourself
+## Run it yourself
 
 ```bash
 pip install -r requirements.txt
-docker compose up -d          # mosquitto, only for notebook 05 and the bridge test
-pytest -q                     # 8 tests
+docker compose up -d          # mosquitto, for notebooks 05 and 06 and the bridge tests
+pytest -q                     # 14 tests
+python -m lab.lint            # house rules for the ontology
+python -m lab.competency      # the 15 competency questions, also writes docs/competency_questions.md
+python -m lab.catalog         # regenerate docs/ontology_reference.md and ontology/catalog.json
 jupyter lab notebooks/
 python -m lab.figures         # regenerate docs/img (needs Graphviz: apt install graphviz)
 ```
 
-Neo4j (optional): `docker compose -f neo4j/docker-compose.yml up -d`, then load `neo4j/plant.cypher` with `cypher-shell` or paste it at http://localhost:7474. The Cypher is generated and its structure is tested, but it is not loaded into a live Neo4j in CI.
+Neo4j (optional): `docker compose -f neo4j/docker-compose.yml up -d`, then load `neo4j/plant.cypher` and after it `neo4j/ontology.cypher` with `cypher-shell`, or paste them at http://localhost:7474. The Cypher is generated and its structure is tested, but it is not loaded into a live Neo4j in CI.
 
 ### Layout
 
 | Path | What |
 |---|---|
 | `ontology/` | `core.ttl` and five domain extensions (Turtle, OWL) |
-| `data/` | `plant.ttl` (generated by `python -m lab.sample_data`) and `broken.ttl` |
+| `data/` | `plant.ttl` (generated by `python -m lab.sample_data`), `broken.ttl` and `broken_v2.ttl` |
 | `shapes/` | SHACL contracts |
-| `lab/` | queries, validator, UNS bridge, Cypher export, figures |
-| `notebooks/` | 01 core · 02 extensions · 03 SHACL · 04 questions · 05 UNS and Neo4j |
-| `docs/img/` | the figures on this page |
+| `lab/` | queries, validator, UNS bridge, Cypher export, figures, catalog, lint, competency questions |
+| `notebooks/` | 01 core · 02 extensions · 03 SHACL · 04 questions · 05 UNS and Neo4j · 06 wider model · 07 agent-readable |
+| `docs/` | generated ontology reference and competency questions, and the figures on this page |
+| `tools/` | notebook generator and the didactic layer |
 
 ### Related
 

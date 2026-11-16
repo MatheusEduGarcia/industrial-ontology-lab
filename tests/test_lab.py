@@ -64,3 +64,55 @@ def test_uns_bridge():
     simulate_plant(prefix=b.prefix, seconds=2)
     time.sleep(0.5); b.stop()
     assert b.messages > 20 and len(b.orphans) == 1
+
+
+# ------------------------------------------------------------------ version 2
+def test_ontology_follows_the_house_rules():
+    from lab.lint import problems
+    assert problems() == []
+
+
+def test_every_competency_question_is_answered(g):
+    from lab.competency import run
+    lost = [r["id"] for r in run(g) if not r["answered"]]
+    assert lost == []
+
+
+def test_catalog_describes_terms_with_inherited_relations():
+    from lab.catalog import describe, schema_card, terms
+    text = describe("Downtime")
+    assert "mfg:occurredOn" in text and "mnt:causedBy" in text and "Is a: mfg:Event" in text
+    assert describe("nope").startswith("No term named")
+    assert all(t["definition"] for t in terms())
+    assert len(schema_card()) < 12000  # small enough to sit in a prompt
+
+
+def test_v2_contracts():
+    data = Graph().parse(ROOT / "data" / "plant.ttl")
+    data.parse(ROOT / "data" / "broken_v2.ttl")
+    ok, rows = validate(data)
+    assert not ok and len(rows) == 8
+    assert {r["focus"].split("/")[0] for r in rows} == {"maintenance-plan", "material-lot", "measurement",
+                                                         "non-conformance", "specification", "stock"}
+
+
+def test_ontology_exports_to_cypher_as_a_metamodel():
+    from lab.to_cypher import ontology_to_cypher
+    lines = ontology_to_cypher()
+    assert any(":OntologyClass" in l and "Downtime" in l for l in lines)
+    assert any("SUBCLASS_OF" in l for l in lines) and any("CAN_TRANSITION_TO" in l for l in lines)
+    assert lines[-1].endswith("MERGE (n)-[:INSTANCE_OF]->(c);")
+
+
+@pytest.mark.skipif(not _broker(), reason="no MQTT broker on localhost:1883")
+def test_bridge_flags_impossible_transitions():
+    from lab.uns_bridge import UnsBridge, simulate_plant
+    graph = load_plant()
+    b = UnsBridge(graph, prefix=f"ci-{uuid.uuid4().hex[:4]}")
+    b.start(); time.sleep(0.3)
+    simulate_plant(prefix=b.prefix, seconds=4)
+    time.sleep(0.5); b.stop()
+    changes = query(graph, "SELECT ?e WHERE { ?e a mfg:StateChange ; mfg:toOperatingState ?s }")
+    assert len(changes) == b.events_added
+    for row in query(graph, q.ILLEGAL_TRANSITIONS):
+        assert (row["from"], row["to"]) == ("FAULTED", "RUNNING")
