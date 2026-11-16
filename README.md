@@ -21,7 +21,8 @@ An ontology made of a **core** plus **domain extensions**, a knowledge graph of 
 3. [Data contracts with SHACL](#3-data-contracts-with-shacl)
 4. [Business questions that cross domains](#4-business-questions-that-cross-domains)
 5. [The live UNS bridge and the Neo4j export](#5-the-live-uns-bridge-and-the-neo4j-export)
-6. [Run it yourself](#6-run-it-yourself)
+6. [How the notebooks teach](#how-the-notebooks-teach)
+7. [Run it yourself](#6-run-it-yourself)
 
 ---
 
@@ -242,6 +243,32 @@ The same lots question in Cypher is in [`neo4j/queries.cypher`](neo4j/queries.cy
 | App ecosystem | smaller | larger, built-in visualization |
 
 A common split: model and validate in RDF, serve applications from Neo4j.
+
+---
+
+## How the notebooks teach
+
+The notebooks are in Portuguese and committed **already executed**, so they read on GitHub without installing anything. Every one has the same structure:
+
+| Block | What it is for |
+|---|---|
+| **Antes de começar** | who it is for, prerequisites, time, what you will be able to do, where it shows up in a plant, and one analogy |
+| **Concept, then experiment** | a short explanation followed by a cell that proves it, with the real output kept |
+| **Pare e preveja** | before the key experiments, a question to answer before running the cell |
+| **Leitura do resultado** | what the output means, right under it |
+| **Erros comuns** | the mistakes people actually make |
+| **Teste seu entendimento** | three questions with answers hidden behind a click |
+| **Exercícios**, **Glossário**, **Próximo passo** | things to try, the vocabulary, and the link to the next notebook |
+
+| # | Notebook | You learn to |
+|---|---|---|
+| 01 | [Ontologia central](notebooks/01_ontologia_central.ipynb) | read a triple, tell class from instance, use a transitive property in a query |
+| 02 | [Extensões de domínio](notebooks/02_extensoes_de_dominio.ipynb) | explain why each domain imports the core and what events inherit |
+| 03 | [Contratos de dados com SHACL](notebooks/03_contratos_de_dados_shacl.ipynb) | read a shape, interpret a validation report, gate records at the door |
+| 04 | [Consultas de negócio](notebooks/04_consultas_de_negocio.ipynb) | cross domains by time and asset, and recognize confounded factors |
+| 05 | [UNS ao vivo e Neo4j](notebooks/05_uns_ao_vivo_e_neo4j.ipynb) | join live MQTT values to the model and export RDF to a property graph |
+
+The didactic layer lives in [`tools/didatico_conteudo.py`](tools/didatico_conteudo.py) and is applied with `python tools/didatico.py tools/didatico_conteudo.py .`, so it survives re-running a notebook.
 
 ---
 
